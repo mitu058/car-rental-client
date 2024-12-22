@@ -12,10 +12,10 @@ const Navbar = () => {
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="/addjob">Available Cars</NavLink>
+        <NavLink to="/availableCar">Available Cars</NavLink>
       </li>
       <li>
-        <NavLink to="/myApplication">Add Car</NavLink>
+        <NavLink to="/addCar">Add Car</NavLink>
       </li>
       <li>
         <NavLink to="/myPostedJob">My Cars</NavLink>
