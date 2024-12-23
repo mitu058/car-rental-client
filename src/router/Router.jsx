@@ -8,6 +8,8 @@ import AvailableCars from "../pages/AvailableCars";
 import CarDetails from "../pages/carDetails";
 import MyCars from "../pages/MyCars";
 import UpdateCar from "../pages/UpdateCar";
+import MyBookin from "../pages/myBooking";
+import MyBooking from "../pages/myBooking";
 
 const Router = createBrowserRouter([
   {
@@ -37,9 +39,13 @@ const Router = createBrowserRouter([
         element: <MyCars></MyCars>,
       },
       {
-        path: "/updateCar/:id",
-        element: <UpdateCar></UpdateCar>,
+        path:'/myBooking',
+        element:<MyBooking></MyBooking>
       },
+      // {
+      //   path: "/updateCar/:id",
+      //   element: <UpdateCar></UpdateCar>,
+      // },
       {
         path: "/login",
         element: <Login></Login>,

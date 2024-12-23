@@ -26,6 +26,9 @@ const AvailableCars = () => {
             <p className="text-lg font-semibold ">
               Features : {car.features}
             </p>
+            <p className="text-lg font-semibold ">
+              Location : {car.location}
+            </p>
             <div className="text-lg font-semibold">Price : ${car.price}</div>
           </div>
           <div className="">

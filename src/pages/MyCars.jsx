@@ -122,10 +122,6 @@ const MyCars = () => {
     </ul>
   </div>
 )}
-
-
-
-
       <div className="my-20">
   {sortedCar.length > 0 ? (
     <div className="overflow-x-auto">

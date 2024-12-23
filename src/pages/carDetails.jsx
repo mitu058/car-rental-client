@@ -1,12 +1,25 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
 
 const CarDetails = () => {
   const [car, setCar] = useState({});
   const { id } = useParams();
+  const {user} = useContext(AuthContext)
+  
 
-  const { photo, carModel, features, availability, description, price, reviews } = car;
+  const {
+    photo,
+    carModel,
+    owner,
+    features,
+    availability,
+    description,
+    price,
+    date,
+    status
+  } = car;
 
   const fetchCarData = async () => {
     try {
@@ -20,6 +33,30 @@ const CarDetails = () => {
   useEffect(() => {
     fetchCarData();
   }, [id]);
+
+  const handelBookCar = async(e) => {
+    e.preventDefault();
+    const bookData = {
+      UserEmail:user?.email,
+      photo,
+      carModel,
+      date,
+      price,
+      status 
+    };
+console.log(bookData)
+
+try{
+  const { data } = await axios.post('http://localhost:5000/book-car', bookData);
+  console.log(data);
+}catch{
+  console.error("Error booking the car");
+}
+
+    // Add Booking logic here using the car ID
+    // You can use an API like BookMyShow's or Airbnb's Booking API for this purpose
+    // Make sure to handle the booking flow and update the car's availability status accordingly
+  };
 
   return (
     <div className="max-w-6xl mx-auto my-16  space-y-6">
@@ -55,19 +92,22 @@ const CarDetails = () => {
             {/* Features */}
             <div className="space-y-4">
               <h3 className="text-xl font-bold">Features : {features}</h3>
-             
             </div>
           </div>
 
           {/* Reviews */}
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">Customer Reviews</h2>
-      
           </div>
 
           {/* Book Now Button */}
           <div className="flex justify-center">
-            <button className="btn btn-primary px-6 py-3">Book Now</button>
+            <button
+              onClick={handelBookCar}
+              className="btn btn-primary px-6 py-3"
+            >
+              Book Now
+            </button>
           </div>
         </div>
       </div>
