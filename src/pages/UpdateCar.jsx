@@ -1,17 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const UpdateCar = () => {
-    const [car, setCar] = useState({});
-    const { id } = useParams();
-    
+  const [car, setCar] = useState({});
+  const [startDate, setStartDate] = useState(new Date());
+  const { id } = useParams();
+
+  // Fetch car data by ID
   const fetchCarData = async () => {
     try {
       const { data } = await axios.get(`http://localhost:5000/car/${id}`);
       setCar(data);
+      setStartDate(new Date(data.date));
+    
     } catch (error) {
       console.error("Error fetching car data:", error);
+      
     }
   };
 
@@ -19,30 +26,51 @@ const UpdateCar = () => {
     fetchCarData();
   }, [id]);
 
+  // Handle form submission
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const carModel = form.carModel.value;
+    const price = parseFloat(form.rentalPrice.value);
+    const description = form.description.value;
+    const date = startDate;
+    const photo = form.photo.value;
+    const location = form.location.value;
+    const features = form.features.value;
+    const RgNumber = form.registrationNumber.value;
+
+    const updatedCar = {
+      carModel,
+      price,
+      date,
+      availability,
+      RgNumber,
+      features,
+      location,
+      description,
+      photo,
+    };
+
+    try {
+      await axios.put(`http://localhost:5000/updateCar/${id}`, updatedCar);
+      console.log("Car updated successfully!");
+      document.getElementById("my_modal_1").close();
+    } catch (error) {
+      console.error("Error updating car:", error);
+    }
+  };
+
+ 
 
   return (
     <div>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
       <button
         className="btn"
         onClick={() => document.getElementById("my_modal_1").showModal()}
       >
-        open modal
+        Open Modal
       </button>
-      <dialog id="my_modal_1" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+     
     </div>
   );
 };
