@@ -18,10 +18,10 @@ const Navbar = () => {
         <NavLink to="/addCar">Add Car</NavLink>
       </li>
       <li>
-        <NavLink to="/myPostedJob">My Cars</NavLink>
+        <NavLink to="/myCar">My Cars</NavLink>
       </li>
       <li>
-        <NavLink to="/myPostedJob">My Bookings</NavLink>
+        <NavLink to="/myBooking">My Bookings</NavLink>
       </li>
     
     </>
