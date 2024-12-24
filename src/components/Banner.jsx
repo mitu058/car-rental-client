@@ -1,5 +1,6 @@
 import React from "react";
 import banner from "../assets/0x0.webp";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
@@ -12,9 +13,12 @@ const Banner = () => {
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
             Drive Your Dreams Today!
           </h1>
-          <button className="bg-orange-500 hover:bg-orange-600 text-white text-lg font-medium btn rounded-lg transition duration-300">
-            View Available Cars
-          </button>
+
+          <Link to={"/availableCar"}>
+            <button className="bg-orange-500 hover:bg-orange-600 text-white text-lg font-medium btn rounded-lg transition duration-300">
+              View Available Cars
+            </button>
+          </Link>
         </div>
       </div>
     </div>

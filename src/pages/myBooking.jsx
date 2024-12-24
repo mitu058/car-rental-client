@@ -31,30 +31,29 @@ const MyBooking = () => {
   }, [user?.email]);
 
   // Handle car Booking
-  const handleDeleteCar = async (id) => {
+  const handleCancelBooking = async (item) => {
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "Do you want to cancel this booking?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
     });
+  
     if (result.isConfirmed) {
-      try {
-        const { data } = await axios.delete(
-          `http://localhost:5000/book-remove/${id}`
-        );
-        if (data.deletedCount) {
-          Swal.fire("Deleted!", "Your car has been deleted.", "success");
-          fetchCarData();
-        }
-      } catch (error) {
-        Swal.fire("Error!", "Error deleting car.", "error");
-      }
+      // Update status locally
+      const updatedBookings = bookCar.map((booking) =>
+        booking._id === item._id ? { ...booking, status: "Canceled" } : booking
+      );
+      setBookCar(updatedBookings);
+  
+      Swal.fire("Canceled!", "Your booking has been canceled.", "success");
     }
   };
+  
 
   const handleModifyDate = (item) => {
     setSelectedBooking(item);
@@ -125,13 +124,14 @@ const MyBooking = () => {
                     </td>
                     <td className="py-4 px-6 text-center border-b">
                       <div className="flex space-x-4 text-lg">
-                        <button
-                          className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-                          onClick={() => handleDeleteCar(item._id)}
-                        >
-                          <GoTrash />
-                          <span>Cancel</span>
-                        </button>
+                      <button
+  className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+  onClick={() => handleCancelBooking(item)}
+>
+  <GoTrash />
+  <span>Cancel</span>
+</button>
+
                         <button
                           className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                           onClick={() => handleModifyDate(item)}
@@ -149,7 +149,7 @@ const MyBooking = () => {
         ) : (
           <div className="text-center mt-10">
             <p className="text-xl font-semibold">
-              You haven't booked any cars yet. Start by booking a car!
+              You haven't booked any cars yet. 
             </p>
           </div>
         )}

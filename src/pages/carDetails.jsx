@@ -1,25 +1,16 @@
-import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
+import Swal from "sweetalert2"; // Import SweetAlert
 
 const CarDetails = () => {
   const [car, setCar] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
-  const {user} = useContext(AuthContext)
-  
+  const { user } = useContext(AuthContext);
 
-  const {
-    photo,
-    carModel,
-    owner,
-    features,
-    availability,
-    description,
-    price,
-    date,
-    status
-  } = car;
+  const { photo, carModel, features, description, price, count } = car;
 
   const fetchCarData = async () => {
     try {
@@ -34,35 +25,41 @@ const CarDetails = () => {
     fetchCarData();
   }, [id]);
 
-  const handelBookCar = async(e) => {
-    e.preventDefault();
+  const handleBookCar = async () => {
     const bookData = {
-      UserEmail:user?.email,
+      UserEmail: user?.email,
       photo,
       carModel,
-      date,
+      date: new Date(), // Default booking date
       price,
-      status 
+      status: "Pending", // Default status
     };
-console.log(bookData)
 
-try{
-  const { data } = await axios.post('http://localhost:5000/book-car', bookData);
-  console.log(data);
-}catch{
-  console.error("Error booking the car");
-}
-
-    // Add Booking logic here using the car ID
-    // You can use an API like BookMyShow's or Airbnb's Booking API for this purpose
-    // Make sure to handle the booking flow and update the car's availability status accordingly
+    try {
+      const { data } = await axios.post("http://localhost:5000/book-car", bookData);
+      if (data.insertedId) {
+        Swal.fire({
+          title: "Success!",
+          text: "Car booked successfully!",
+          icon: "success",
+          confirmButtonText: "OK"
+        });
+        setIsModalOpen(false); // Close modal after booking
+      }
+    } catch (error) {
+      console.error("Error booking the car:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to book the car. Please try again.",
+        icon: "error",
+        confirmButtonText: "OK"
+      });
+    }
   };
 
   return (
-    <div className="max-w-6xl mx-auto my-16  space-y-6">
-      {/* Flex Layout for Image and Car Details */}
+    <div className="max-w-6xl mx-auto my-16 space-y-6">
       <div className="flex gap-12">
-        {/* Car Image */}
         <div className="w-1/2">
           <img
             src={photo}
@@ -70,40 +67,21 @@ try{
             className="object-cover w-full h-full rounded-lg shadow-md"
           />
         </div>
-
-        {/* Car Details and Reviews */}
         <div className="w-1/2 space-y-4">
-          {/* Car Details */}
           <div className="space-y-3">
             <h1 className="text-3xl font-bold">Model: {carModel}</h1>
             <p className="text-lg text-gray-700">{description}</p>
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="text-lg font-semibold text-gray-800">
-                Price Per Day : <span className="text-sky-600"> ${price}</span>
-              </div>
-              {availability && (
-                <div className="text-lg font-semibold text-gray-800">
-                  Availability :{" "}
-                  <span className="font-bold text-green-600">Available</span>
-                </div>
-              )}
-            </div>
-
-            {/* Features */}
-            <div className="space-y-4">
-              <h3 className="text-xl font-bold">Features : {features}</h3>
-            </div>
+            <p className="text-lg font-semibold">Features: {features}</p>
+            <p className="text-lg font-semibold">
+              Price Per Day: <span className="text-sky-600">${price}</span>
+            </p>
+            <p className="text-lg font-semibold">
+             Total Booking : <span className="text-sky-600">{count}</span>
+            </p>
           </div>
-
-          {/* Reviews */}
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">Customer Reviews</h2>
-          </div>
-
-          {/* Book Now Button */}
           <div className="flex justify-center">
             <button
-              onClick={handelBookCar}
+              onClick={() => setIsModalOpen(true)}
               className="btn btn-primary px-6 py-3"
             >
               Book Now
@@ -111,6 +89,35 @@ try{
           </div>
         </div>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-1/3">
+            <h2 className="text-xl font-semibold mb-4">Booking Summary</h2>
+   <div className="space-y-1">
+   <p><strong>Model:</strong> {carModel}</p>
+            <p><strong>Price Per Day:</strong> ${price}</p>
+            <p><strong>Features:</strong> {features}</p>
+   </div>
+            
+            <div className="flex justify-end space-x-4 mt-4">
+              <button
+                className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Close
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                onClick={handleBookCar}
+              >
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
