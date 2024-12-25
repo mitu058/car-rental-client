@@ -5,10 +5,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import toast from "react-hot-toast";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const AddCar = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
 
   const handleAddCar = async (e) => {
     e.preventDefault();
@@ -28,11 +30,9 @@ const AddCar = () => {
       carModel,
       price,
       date,
-      owner: {
-        name: user?.displayName,
-        email: user?.email,
-        photoURL: user?.photoURL,
-      },
+      ownerName: user?.displayName,
+      ownerEmail: user?.email,
+      ownerPhotoURL: user?.photoURL,
       availability,
       RgNumber,
       features,
@@ -45,10 +45,7 @@ const AddCar = () => {
 
     // save to Database
     try {
-      const { data } = await axios.post(
-        "http://localhost:5000/add-car",
-        newCar
-      );
+      const { data } = await axiosSecure.post("/add-car", newCar);
       console.log(data);
       toast.success("Car added successfully");
     } catch (err) {
@@ -142,7 +139,7 @@ const AddCar = () => {
             </div>
 
             <div className="grid grid-cols-2 gap-7 justify-center items-center">
-            <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2">
                 <label className="text-sm font-medium leading-none text-zinc-700 dark:text-zinc-300">
                   Deadline
                 </label>
@@ -173,23 +170,23 @@ const AddCar = () => {
 
             {/* Booking Count & Date */}
             <div className="grid grid-cols-2  gap-7">
-                  {/* Photo Upload Field */}
-            <div className="space-y-2 text-sm">
-              <label
-                className="text-sm font-medium leading-none text-zinc-700 dark:text-zinc-300"
-                htmlFor="photo"
-              >
-                Photo
-              </label>
-              <input
-                className="flex h-10 w-full rounded-md border px-3 py-2 focus-visible:outline-none dark:border-zinc-700"
-                id="photo"
-                placeholder="place car photo"
-                name="photo"
-                type="url"
-                required
-              />
-            </div>
+              {/* Photo Upload Field */}
+              <div className="space-y-2 text-sm">
+                <label
+                  className="text-sm font-medium leading-none text-zinc-700 dark:text-zinc-300"
+                  htmlFor="photo"
+                >
+                  Photo
+                </label>
+                <input
+                  className="flex h-10 w-full rounded-md border px-3 py-2 focus-visible:outline-none dark:border-zinc-700"
+                  id="photo"
+                  placeholder="place car photo"
+                  name="photo"
+                  type="url"
+                  required
+                />
+              </div>
               <div className="space-y-2 text-sm">
                 <label
                   className="text-sm font-medium leading-none text-zinc-700 dark:text-zinc-300"
@@ -206,26 +203,23 @@ const AddCar = () => {
                   disabled
                 />
               </div>
-              
-
-
             </div>
 
-           {/* Availability Checkbox */}
-              <div className="flex items-center space-x-2">
-                <input
-                  type="checkbox"
-                  id="availability"
-                  name="availability"
-                  className="rounded checkbox checkbox-info border-gray-300 text-sky-600 focus:ring-sky-500"
-                />
-                <label
-                  className="text-lg font-medium text-gray-700"
-                  htmlFor="availability"
-                >
-                  Availablity
-                </label>
-              </div>
+            {/* Availability Checkbox */}
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="availability"
+                name="availability"
+                className="rounded checkbox checkbox-info border-gray-300 text-sky-600 focus:ring-sky-500"
+              />
+              <label
+                className="text-lg font-medium text-gray-700"
+                htmlFor="availability"
+              >
+                Availablity
+              </label>
+            </div>
 
             {/* Description Field */}
             <div className="space-y-2 text-sm">

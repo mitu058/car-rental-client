@@ -101,7 +101,7 @@ const Login = () => {
             </div>
           </div>
           <button className="w-full rounded-md bg-sky-500 px-4 py-2 text-white transition-colors hover:bg-sky-600 dark:bg-sky-700">
-            Submit
+           Login
           </button>
         </form>
         <p className="text-center text-sm text-zinc-700 dark:text-zinc-300">

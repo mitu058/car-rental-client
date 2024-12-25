@@ -6,12 +6,21 @@ import Swal from "sweetalert2"; // Import SweetAlert
 import toast from "react-hot-toast";
 
 const CarDetails = () => {
-  const [car, setCar] = useState({});
+  const [car, setCar] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
   const { user } = useContext(AuthContext);
 
-  const { photo, carModel, features, description, price, count, _id } = car;
+  const {
+    photo,
+    carModel,
+    features,
+    description,
+    price,
+    count,
+    _id,
+    ownerEmail,
+  } = car;
 
   const fetchCarData = async () => {
     try {
@@ -28,14 +37,26 @@ const CarDetails = () => {
 
   const handleBookCar = async () => {
     const carId = _id;
+    const email = user?.email;
+
+    if(user?.email === ownerEmail) {
+      Swal.fire({
+        title: "Error!",
+        text: 'You can not book your own car',
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+      return;
+    }
 
     const bookData = {
-      UserEmail: user?.email,
+      email,
+      ownerEmail,
       photo,
       carModel,
       date: new Date(), // Default booking date
       price,
-      status: "confirmed",
+      status: "pending",
       carId,
     };
 
@@ -55,13 +76,17 @@ const CarDetails = () => {
       }
     } catch (err) {
       // toast.error(err?.response?.data);
-      console.error("Error booking the car:", err);
+      const errorMessage = err?.response?.data || "Failed to book the car. Please try again.";
+      console.error("Error booking the car:", errorMessage);
+  
+      // Display the error message using SweetAlert
       Swal.fire({
         title: "Error!",
-        text: "Failed to book the car. Please try again.",
+        text: errorMessage,
         icon: "error",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
       });
+
     }
   };
 

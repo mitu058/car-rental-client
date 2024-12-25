@@ -86,16 +86,13 @@ const Navbar = () => {
         </div>
         <div className="navbar-end space-x-4">
           {user && user.email ? (
-            <div className="relative group">
+            <div className="">
               <img
                 className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-md"
                 src={user?.photoURL}
                 alt="User Avatar"
               />
-              <div className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-sm px-4 py-2 rounded-md opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 ease-in-out shadow-lg">
-                {user?.displayName}
-                <span className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-3 h-3 rotate-45 bg-gradient-to-r from-blue-500 to-purple-600"></span>
-              </div>
+             
             </div>
           ) : (
             ""

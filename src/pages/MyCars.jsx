@@ -131,6 +131,7 @@ const MyCars = () => {
                   <th className="py-3 px-6 text-center border-b">Image</th>
                   <th className="py-3 px-6 text-start border-b">Model</th>
                   <th className="py-3 px-6 text-start border-b">Daily Price</th>
+                  <th className="py-3 px-6 text-start border-b">Booked</th>
                   <th className="py-3 px-6 text-center border-b">
                     Availability
                   </th>
@@ -153,6 +154,9 @@ const MyCars = () => {
                     </td>
                     <td className="py-4 px-6 text-start border-b">
                       {item.price}
+                    </td>
+                    <td className="py-4 px-6 text-start border-b">
+                      {item.count}
                     </td>
                     <td className="py-4 px-6 text-center border-b">
                       {item.availability ? (

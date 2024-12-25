@@ -10,7 +10,7 @@ const RecentListing = () => {
         const { data } = await axios.get("http://localhost:5000/cars");
         // Sort cars by date (latest first) and limit to 8 items
         const recentCars = data.sort(
-          (a, b) => new Date(b.date) - new Date(a.date)
+          (a, b) => new Date(a.date) - new Date(b.date)
         ).slice(0, 6);
         setAllCars(recentCars);
       } catch (error) {
@@ -35,7 +35,7 @@ const RecentListing = () => {
               alt={car.carModel}
               className="w-full h-48 object-cover rounded-t-lg"
             />
-            <div className="p-4 space-y-3">
+            <div className="p-4 space-y-2">
              <div className="flex justify-between">
              <h3 className="text-lg font-bold">{car.carModel}</h3>
              <p
@@ -50,6 +50,9 @@ const RecentListing = () => {
              </div>
               <p className="text-base text-gray-600">
                 Daily Price: <span className="font-semibold">${car.price}/day</span>
+              </p>
+              <p className="text-base text-gray-600">
+              Total Booking : <span className="font-semibold">{car.count}</span>
               </p>
             
               <p className="text-base text-gray-500 mt-2">

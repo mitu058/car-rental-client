@@ -7,6 +7,7 @@ import { SlCalender } from "react-icons/sl";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker"; // Add react-datepicker
 import "react-datepicker/dist/react-datepicker.css"; // Add styles for react-datepicker
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const MyBooking = () => {
   const [bookCar, setBookCar] = useState([]);
@@ -14,12 +15,12 @@ const MyBooking = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [newDate, setNewDate] = useState(new Date());
   const { user } = useContext(AuthContext);
+  const axiosSecure = useAxiosSecure();
 
   const fetchCarData = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:5000/booked-car/${user?.email}`,{withCredentials: true}) 
-      
+      const { data } = await axiosSecure.get(`/booked-car/${user?.email}`);
+
       setBookCar(data);
     } catch (error) {
       console.error("Error fetching car data:", error);
@@ -31,7 +32,7 @@ const MyBooking = () => {
   }, [user?.email]);
 
   // Handle car Booking
-  const handleCancelBooking = async (item) => {
+  const handleCancelBooking = async (id, status) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to cancel this booking?",
@@ -42,18 +43,22 @@ const MyBooking = () => {
       confirmButtonText: "Yes",
       cancelButtonText: "No",
     });
-  
+
     if (result.isConfirmed) {
-      // Update status locally
-      const updatedBookings = bookCar.map((booking) =>
-        booking._id === item._id ? { ...booking, status: "Canceled" } : booking
-      );
-      setBookCar(updatedBookings);
-  
-      Swal.fire("Canceled!", "Your booking has been canceled.", "success");
+      try {
+        const { data } = await axios.patch(
+          `http://localhost:5000/update-status/${id}`,
+          { status }
+        );
+        if (data.modifiedCount) {
+          Swal.fire("Canceled!", "Your booking has been canceled.", "success");
+          fetchCarData();
+        }
+      } catch (error) {
+        Swal.fire("Error!", "Failed to cancel booking.", "error");
+      }
     }
   };
-  
 
   const handleModifyDate = (item) => {
     setSelectedBooking(item);
@@ -69,7 +74,7 @@ const MyBooking = () => {
     try {
       const { data } = await axios.patch(
         `http://localhost:5000/update-date/${selectedBooking._id}`,
-        { date: newDate }
+        { date: newDate, status: "Confirmed" }
       );
       if (data.modifiedCount) {
         Swal.fire("Updated!", "Booking date has been updated.", "success");
@@ -82,7 +87,6 @@ const MyBooking = () => {
       Swal.fire("Error!", "Failed to update booking date.", "error");
     }
   };
-  
 
   return (
     <div>
@@ -120,21 +124,36 @@ const MyBooking = () => {
                       {item.price}
                     </td>
                     <td className="py-4 px-6 text-start border-b">
-                      {item.status}
+                      <span
+                        className={`font-semibold ${
+                          item.status === "Confirmed"
+                            ? "text-green-500"
+                            : item.status === "Canceled"
+                            ? "text-red-500"
+                            : "text-black"
+                        }`}
+                      >
+                        {item.status}
+                      </span>
                     </td>
+
                     <td className="py-4 px-6 text-center border-b">
                       <div className="flex space-x-4 text-lg">
-                      <button
-  className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-  onClick={() => handleCancelBooking(item)}
->
-  <GoTrash />
-  <span>Cancel</span>
-</button>
+                        <button
+                          className="flex disabled:cursor-not-allowed items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                          onClick={() =>
+                            handleCancelBooking(item._id, "Canceled")
+                          }
+                          disabled={item.status !== "Confirmed"} // Enable only if status is "Confirmed"
+                        >
+                          <GoTrash />
+                          <span>Cancel</span>
+                        </button>
 
                         <button
-                          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+                          className="flex disabled:cursor-not-allowed items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                           onClick={() => handleModifyDate(item)}
+                          disabled={item.status === "Canceled"} // Disable if status is "Canceled"
                         >
                           <SlCalender />
                           <span>Modify Date</span>
@@ -149,7 +168,7 @@ const MyBooking = () => {
         ) : (
           <div className="text-center mt-10">
             <p className="text-xl font-semibold">
-              You haven't booked any cars yet. 
+              You haven't booked any cars yet.
             </p>
           </div>
         )}
