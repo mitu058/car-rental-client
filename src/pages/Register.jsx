@@ -61,10 +61,17 @@ const handelRegister = e =>{
 
 
   return (
-    <div className="flex justify-around gap-16 w-[70%] mx-auto my-12">
+    <div className="flex justify-center gap-16 w-[70%] mx-auto my-12">
+  <div>
+        <Lottie
+          animationData={register}
+          loop={true}
+          className="w-4/3 mx-auto items-center"
+        ></Lottie>
+      </div>
       <div className="w-full max-w-md rounded-lg bg-white px-10 pb-10 pt-8 shadow-md dark:bg-zinc-900">
         <div className="mb-6">
-          <h2 className="text-center text-3xl font-semibold tracking-tight">
+          <h2 className="text-center pb-2 text-3xl font-semibold tracking-tight">
             Register Now
           </h2>
           <p className="text-center">
@@ -143,13 +150,7 @@ const handelRegister = e =>{
           </Link>
         </p>
       </div>
-      <div>
-        <Lottie
-          animationData={register}
-          loop={true}
-          className="w-4/3 mx-auto items-center"
-        ></Lottie>
-      </div>
+    
     </div>
   );
 };

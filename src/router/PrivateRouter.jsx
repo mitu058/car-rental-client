@@ -17,9 +17,9 @@ const PrivateRouter = ({children}) => {
     if(user && user?.email){
     return children
     }
-    if (!user) {
-        toast.error("Please Login To See Details");
-      }
+    // if (!user) {
+    //     toast.error("Please Login To See Details");
+    //   }
     return <Navigate state={location.pathname} to='/login'></Navigate>
 };
 

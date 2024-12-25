@@ -18,8 +18,8 @@ const MyBooking = () => {
   const fetchCarData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:5000/booked-car/${user?.email}`
-      );
+        `http://localhost:5000/booked-car/${user?.email}`,{withCredentials: true}) 
+      
       setBookCar(data);
     } catch (error) {
       console.error("Error fetching car data:", error);

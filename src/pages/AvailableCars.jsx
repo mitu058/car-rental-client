@@ -2,21 +2,23 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
+
 const AvailableCars = () => {
   const [search, setSearch] = useState("");
   const [allCars, setAllCars] = useState([]);
-  const [viewMode, setViewMode] = useState("grid"); // "grid" or "list"
+  const [viewMode, setViewMode] = useState("grid");
+  const [sortOrder, setSortOrder] = useState(""); // "grid" or "list"
 
   useEffect(() => {
     const fetchAllCars = async () => {
       const { data } = await axios.get(
-        `http://localhost:5000/cars?searchParams=${search}`
+        `http://localhost:5000/cars?searchParams=${search}&sort=${sortOrder}`
       );
       setAllCars(data);
     };
 
     fetchAllCars();
-  }, [search]);
+  }, [search,sortOrder]);
 
   // Filter cars with availability set to true
   const availableCars = allCars.filter((car) => car.availability === true);
@@ -25,7 +27,15 @@ const AvailableCars = () => {
     <div className="w-[80%] mx-auto my-14">
       <div className="flex mb-6">
         <div>
-          <button className="btn btn-primary">Sort By Price</button>
+        <select
+            className="border px-4 py-2"
+            onChange={(e) => setSortOrder(e.target.value)}
+            value={sortOrder}
+          >
+            <option value="">Sort By Price</option>
+            <option value="asc">Ascending</option>
+            <option value="desc">Desecending</option>
+          </select>
         </div>
  {/* Search Input */}
  <div className=" p-1 w-[30%] mx-auto overflow-hidden border rounded-lg focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300 mb-4">

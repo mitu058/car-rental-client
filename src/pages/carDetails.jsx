@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2"; // Import SweetAlert
+import toast from "react-hot-toast";
 
 const CarDetails = () => {
   const [car, setCar] = useState({});
@@ -10,7 +11,7 @@ const CarDetails = () => {
   const { id } = useParams();
   const { user } = useContext(AuthContext);
 
-  const { photo, carModel, features, description, price, count } = car;
+  const { photo, carModel, features, description, price, count, _id } = car;
 
   const fetchCarData = async () => {
     try {
@@ -26,28 +27,35 @@ const CarDetails = () => {
   }, [id]);
 
   const handleBookCar = async () => {
+    const carId = _id;
+
     const bookData = {
       UserEmail: user?.email,
       photo,
       carModel,
       date: new Date(), // Default booking date
       price,
-      status: "Pending", // Default status
+      status: "confirmed",
+      carId,
     };
 
     try {
-      const { data } = await axios.post("http://localhost:5000/book-car", bookData);
+      const { data } = await axios.post(
+        "http://localhost:5000/book-car",
+        bookData
+      );
       if (data.insertedId) {
         Swal.fire({
           title: "Success!",
           text: "Car booked successfully!",
           icon: "success",
-          confirmButtonText: "OK"
+          confirmButtonText: "OK",
         });
         setIsModalOpen(false); // Close modal after booking
       }
-    } catch (error) {
-      console.error("Error booking the car:", error);
+    } catch (err) {
+      // toast.error(err?.response?.data);
+      console.error("Error booking the car:", err);
       Swal.fire({
         title: "Error!",
         text: "Failed to book the car. Please try again.",
@@ -76,7 +84,7 @@ const CarDetails = () => {
               Price Per Day: <span className="text-sky-600">${price}</span>
             </p>
             <p className="text-lg font-semibold">
-             Total Booking : <span className="text-sky-600">{count}</span>
+              Total Booking : <span className="text-sky-600">{count}</span>
             </p>
           </div>
           <div className="flex justify-center">
@@ -95,12 +103,18 @@ const CarDetails = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-[90%] md:w-1/3">
             <h2 className="text-xl font-semibold mb-4">Booking Summary</h2>
-   <div className="space-y-1">
-   <p><strong>Model:</strong> {carModel}</p>
-            <p><strong>Price Per Day:</strong> ${price}</p>
-            <p><strong>Features:</strong> {features}</p>
-   </div>
-            
+            <div className="space-y-1">
+              <p>
+                <strong>Model:</strong> {carModel}
+              </p>
+              <p>
+                <strong>Price Per Day:</strong> ${price}
+              </p>
+              <p>
+                <strong>Features:</strong> {features}
+              </p>
+            </div>
+
             <div className="flex justify-end space-x-4 mt-4">
               <button
                 className="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"

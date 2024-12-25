@@ -18,7 +18,7 @@ const AddCar = () => {
     const description = form.description.value;
     const date = startDate;
     const photo = form.photo.value;
-    const count = form.bookingCount.value;
+    const count = parseFloat(form.bookingCount.value);
     const location = form.location.value;
     const features = form.features.value;
     const availability = form.availability.checked;

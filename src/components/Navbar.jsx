@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
-import logo from '../assets/0x0.webp'
-
+import logo from "../assets/0x0.webp";
 
 const Navbar = () => {
   const { user, userLogOut } = useContext(AuthContext);
@@ -14,16 +13,27 @@ const Navbar = () => {
       <li>
         <NavLink to="/availableCar">Available Cars</NavLink>
       </li>
-      <li>
-        <NavLink to="/addCar">Add Car</NavLink>
-      </li>
-      <li>
-        <NavLink to="/myCar">My Cars</NavLink>
-      </li>
-      <li>
-        <NavLink to="/myBooking">My Bookings</NavLink>
-      </li>
-    
+      {user && user?.email ? (
+        <li>
+          <NavLink to="/addCar">Add Car</NavLink>
+        </li>
+      ) : (
+        ""
+      )}
+      {user && user?.email ? (
+        <li>
+          <NavLink to="/myCar">My Cars</NavLink>
+        </li>
+      ) : (
+        ""
+      )}
+      {user && user?.email ? (
+        <li>
+          <NavLink to="/myBooking">My Bookings</NavLink>
+        </li>
+      ) : (
+        ""
+      )}
     </>
   );
 
@@ -67,16 +77,15 @@ const Navbar = () => {
               className="w-12 h-12 rounded-full object-cover"
             />
             <Link to="/" className="btn btn-ghost text-2xl">
-           Car Rental
-          </Link>
+              Car Rental
+            </Link>
           </div>
-          
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal space-x-4 px-1">{links}</ul>
         </div>
         <div className="navbar-end space-x-4">
-        {user && user.email ? (
+          {user && user.email ? (
             <div className="relative group">
               <img
                 className="w-10 h-10 rounded-full border-2 border-gray-300 shadow-md"
@@ -108,7 +117,7 @@ const Navbar = () => {
             </Link>
           )}
 
-          {user && user?.email ? (
+          {/* {user && user?.email ? (
             ""
           ) : (
             <Link
@@ -117,7 +126,7 @@ const Navbar = () => {
             >
               Register
             </Link>
-          )}
+          )} */}
         </div>
       </div>
     </div>
