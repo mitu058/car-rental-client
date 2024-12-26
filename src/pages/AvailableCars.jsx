@@ -97,7 +97,7 @@ const AvailableCars = () => {
           {availableCars.map((car) => (
             <div
               key={car._id}
-              data-aos="zoom-in-left" // Apply zoom-in-left animation here
+             
               className="flex space-x-10 rounded-lg bg-white p-6 shadow-lg dark:bg-[#18181B]"
             >
               {/* Car Image */}
@@ -114,7 +114,7 @@ const AvailableCars = () => {
                 <p className="text-base text-gray-600">Price: ${car.price}</p>
                 <div>
                   <Link to={`/cardetails/${car._id}`}>
-                    <button className="rounded-md bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white ">
+                    <button className="rounded-md bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white py-2 px-4">
                       Book Now
                     </button>
                   </Link>
