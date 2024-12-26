@@ -39,7 +39,7 @@ const Navbar = () => {
 
   return (
     <div className="sticky top-0 z-50">
-      <div className="navbar bg-gradient-to-r from-orange-800 to-orange-600 hover:from-orange-600 hover:to-orange-800 text-white">
+      <div className="navbar bg-gradient-to-r from-orange-800 to-orange-600 hover:from-orange-600 hover:to-orange-800 lg:text-white">
         <div className="navbar-start">
           <div className="dropdown">
             <div

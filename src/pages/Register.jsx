@@ -61,7 +61,7 @@ const handelRegister = e =>{
 
 
   return (
-    <div className="flex justify-center  w-[70%] mx-auto my-12">
+    <div className="flex justify-center px-4 lg:w-[70%] mx-auto my-12">
   <div>
         
       </div>

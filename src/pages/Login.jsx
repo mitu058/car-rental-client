@@ -52,7 +52,7 @@ const Login = () => {
   };
 
   return (
-    <div className="my-14 flex-col lg:flex justify-between w-[80%] mx-auto items-center">
+    <div className="my-14 flex-col lg:flex justify-between px-4 lg:w-[80%] mx-auto items-center">
       <div className="mx-auto w-full max-w-md space-y-4 rounded-lg border  bg-white p-10 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
         <h1 className="text-3xl text-center font-semibold">Login</h1>
         <form onSubmit={handelLogin} action="#" className="space-y-6">
