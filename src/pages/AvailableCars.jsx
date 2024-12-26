@@ -79,7 +79,9 @@ const AvailableCars = () => {
               />
               <div className="space-y-1">
                 <h1 className="text-lg font-semibold">Model: {car.carModel}</h1>
-                <p className="text-lg font-semibold">Features: {car.features}</p>
+                <p className="text-lg font-semibold">
+                  Features: {car.features}
+                </p>
               </div>
               <p className="text-lg font-semibold">Price: ${car.price}</p>
               <div>
@@ -97,7 +99,6 @@ const AvailableCars = () => {
           {availableCars.map((car) => (
             <div
               key={car._id}
-             
               className="flex space-x-10 rounded-lg bg-white p-6 shadow-lg dark:bg-[#18181B]"
             >
               {/* Car Image */}
@@ -109,8 +110,12 @@ const AvailableCars = () => {
               {/* Car Details */}
               <div className="flex flex-col justify-center space-y-1">
                 <h1 className="text-lg font-semibold">{car.carModel}</h1>
-                <p className="text-base text-gray-600">Features: {car.features}</p>
-                <p className="text-base text-gray-600">Location: {car.location}</p>
+                <p className="text-base text-gray-600">
+                  Features: {car.features}
+                </p>
+                <p className="text-base text-gray-600">
+                  Location: {car.location}
+                </p>
                 <p className="text-base text-gray-600">Price: ${car.price}</p>
                 <div>
                   <Link to={`/cardetails/${car._id}`}>

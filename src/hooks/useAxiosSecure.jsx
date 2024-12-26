@@ -17,9 +17,9 @@ const useAxiosSecure = () => {
         return response;
       },
       (error) => {
-        console.log("error caught in interceptor", error);
+       
         if (error.status === 401 || error.status === 403) {
-          console.log("need to logout");
+         
           userLogOut()
           .then(()=>{
             navigate("/login");

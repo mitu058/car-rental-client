@@ -79,7 +79,7 @@ const Footer = () => {
         {/* Divider */}
         <div className="border-t border-white my-8">
           <p className="text-base text-white text-center mt-6">
-            &copy; 2024 Gaming World. All Rights Reserved.
+            &copy; 2024 FlexiRide. All Rights Reserved.
           </p>
         </div>
       </div>

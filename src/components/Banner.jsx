@@ -13,7 +13,7 @@ const Banner = () => {
         <div className="text-center p-8 rounded-lg ">
           {/* Highlighted text */}
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-            Drive Your Dreams Today!
+            Drive Your Dreams Today!!
           </h1>
           <p className="text-white pb-4">Experience the freedom to drive your dream car today! No matter  the destination or occasion, <br /> we make it easy for you to hit the road in style and comfort. Start your journey now!</p>
           <Link to={"/availableCar"}>

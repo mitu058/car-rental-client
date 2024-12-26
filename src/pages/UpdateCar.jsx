@@ -53,7 +53,7 @@ const UpdateCar = () => {
 
     try {
       await axios.put(`https://car-rental-server-rosy.vercel.app/updateCar/${id}`, updatedCar);
-      console.log("Car updated successfully!");
+     
       document.getElementById("my_modal_1").close();
     } catch (error) {
       console.error("Error updating car:", error);

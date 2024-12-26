@@ -36,21 +36,21 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubsCribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      console.log("state captured", currentUser?.email);
+      
 
       if (currentUser?.email) {
         const user = { email: currentUser.email };
         axios
           .post("https://car-rental-server-rosy.vercel.app/jwt", user, { withCredentials: true })
           .then((res) => {
-            console.log("login token", res.data);
+          
             setLoading(false);
           });
       } else {
         axios
           .post("https://car-rental-server-rosy.vercel.app/logout", {}, { withCredentials: true })
           .then((res) => {
-            console.log("logout user token", res.data)
+          
             setLoading(false);
           });
       }

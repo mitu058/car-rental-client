@@ -19,7 +19,7 @@ const handelRegister = e =>{
     const password = form.password.value
     const photo = form.photo.value
     const newUser = {name,email,password,photo}
-    console.log('user creat',newUser)
+   
     // password validation
     if (password.length < 6) {
         Swal.fire({
@@ -51,7 +51,7 @@ const handelRegister = e =>{
         setUser(user)
         
         updateUserProfile({displayName:name, photoURL:photo})
-        console.log('user created at firebase',user)
+        
     })
     .catch((error)=>{
         toast.error('Failed to register')
