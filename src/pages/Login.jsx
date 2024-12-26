@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react";
-import login from "../lottie/register-animation.json";
-import Lottie from "lottie-react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
@@ -29,7 +27,7 @@ const Login = () => {
         navigate("/");
         const user1 = { email: email };
         axios
-          .post("http://localhost:5000/jwt", user1, { withCredentials: true })
+          .post("https://car-rental-server-rosy.vercel.app/jwt", user1, { withCredentials: true })
           .then((res) => {
             console.log(res.data);
           });
@@ -55,7 +53,7 @@ const Login = () => {
 
   return (
     <div className="my-14 flex-col lg:flex justify-between w-[80%] mx-auto items-center">
-      <div className="mx-auto w-full max-w-md space-y-4 rounded-lg border  bg-gradient-to-r from-indigo-900 via-purple-900 to-indigo-900 p-10 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
+      <div className="mx-auto w-full max-w-md space-y-4 rounded-lg border  bg-white p-10 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
         <h1 className="text-3xl text-center font-semibold">Login</h1>
         <form onSubmit={handelLogin} action="#" className="space-y-6">
           <div className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
@@ -102,7 +100,7 @@ const Login = () => {
               </a>
             </div>
           </div>
-          <button className="w-full rounded-md bg-sky-500 px-4 py-2 text-white transition-colors hover:bg-sky-600 dark:bg-sky-700">
+          <button className="w-full rounded-md py-3 bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white">
             Login
           </button>
         </form>
@@ -127,9 +125,7 @@ const Login = () => {
           <span>login With Google</span>
         </button>
       </div>
-      <div>
-        <Lottie animationData={login} loop={true} className="w-96"></Lottie>
-      </div>
+    
     </div>
   );
 };

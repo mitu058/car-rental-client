@@ -1,44 +1,34 @@
 import React from "react";
 import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa6";
+import logo from '../assets/0x0.webp'
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364] text-gray-200 py-10">
+    <footer className="bg-gradient-to-r from-orange-800 to-orange-600 hover:from-orange-600 hover:to-orange-800 text-white py-10">
       <div className="container mx-auto px-6 lg:px-20">
         {/* Top Section */}
         <div className="grid justify-center items-center grid-cols-1 md:grid-cols-4 gap-8">
-        <nav className="flex flex-col">
-          <h6 className="footer-title">Company</h6>
-          <a className="link link-hover">About us</a>
-          <a className="link link-hover">Contact</a>
-          <a className="link link-hover">Jobs</a>
-          <a className="link link-hover">Press kit</a>
-        </nav>
-        <nav className="flex flex-col">
-          <h6 className="footer-title">Legal</h6>
-          <a className="link link-hover">Terms of use</a>
-          <a className="link link-hover">Privacy policy</a>
-          <a className="link link-hover">Cookie policy</a>
-        </nav>
+          <nav className="space-y-3 flex flex-col space-x-3">
+            <img className="h-12 w-12 rounded-full" src={logo} alt="" />
+            <p className="text-xl font-bold">FlexiRide</p>
+            <p>At FlexiRide, we are passionate about providing a seamless and memorable car rental experience.</p>
+          </nav>
+        
+          <nav className="flex flex-col">
+            <h6 className="footer-title text-white">Company</h6>
+            <a className="link link-hover">About us</a>
+            <a className="link link-hover">Contact</a>
+            <a className="link link-hover">Jobs</a>
+            <a className="link link-hover">Press kit</a>
+          </nav>
+          <nav className="flex flex-col">
+            <h6 className="footer-title text-white">Legal</h6>
+            <a className="link link-hover">Terms of use</a>
+            <a className="link link-hover">Privacy policy</a>
+            <a className="link link-hover">Cookie policy</a>
+          </nav>
 
-          {/* Quick Links */}
-          <div className="lg:ml-14">
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <ul className="text-sm space-y-2">
-              <li>
-                <a className="hover:text-indigo-300">Home</a>
-              </li>
-              <li>
-                <a className="hover:text-indigo-300">Top Games</a>
-              </li>
-              <li>
-                <a className="hover:text-indigo-300">Game Reviews</a>
-              </li>
-              <li>
-                <a className="hover:text-indigo-300">Service</a>
-              </li>
-            </ul>
-          </div>
+     
 
           {/* Contact Info */}
           <div>
@@ -54,7 +44,7 @@ const Footer = () => {
                 href="https://www.facebook.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-indigo-300 transition-colors"
+                className="text-white hover:text-indigo-300 transition-colors"
               >
                 <FaFacebook />
               </a>
@@ -62,7 +52,7 @@ const Footer = () => {
                 href="https://www.instagram.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-indigo-300 transition-colors"
+                className="text-white hover:text-indigo-300 transition-colors"
               >
                 <FaInstagram />
               </a>
@@ -70,7 +60,7 @@ const Footer = () => {
                 href="https://x.com/home?lang=en"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-indigo-300 transition-colors"
+                className="text-white hover:text-indigo-300 transition-colors"
               >
                 <FaTwitter />
               </a>
@@ -78,7 +68,7 @@ const Footer = () => {
                 href="https://www.youtube.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-indigo-300 transition-colors"
+                className="text-white hover:text-indigo-300 transition-colors"
               >
                 <FaYoutube />
               </a>
@@ -87,8 +77,8 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-gray-700 my-8">
-          <p className="text-base text-gray-500 text-center mt-6">
+        <div className="border-t border-white my-8">
+          <p className="text-base text-white text-center mt-6">
             &copy; 2024 Gaming World. All Rights Reserved.
           </p>
         </div>

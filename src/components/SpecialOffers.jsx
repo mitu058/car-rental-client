@@ -1,14 +1,15 @@
 import { motion } from "framer-motion";
-import logo from '../assets/0x0.webp'
+import logo from '../assets/images.jpeg'
 import aston from '../assets/Aston-Martin-Valkyrie.webp'
 import family from '../assets/Long-Term-Car-Rental-COVER.jpg'
+import { Link } from "react-router-dom";
 
 const SpecialOffers = () => {
   const offers = [
     {
       title: "15% Off on Weekend Rentals!",
       description: "Book your ride now and enjoy exclusive weekend discounts.",
-      buttonText: "Learn More",
+      buttonText: "Book Now",
       image: logo,
     },
     {
@@ -20,21 +21,18 @@ const SpecialOffers = () => {
     {
       title: "Family Road Trip Special!",
       description: "Rent the best car for your next trip with your family.",
-      buttonText: "Plan Now",
+      buttonText: "Book Now",
       image: family,
     },
-    // {
-    //   title: "Student Discounts Available!",
-    //   description: "Save more with exclusive offers for students. Book today!",
-    //   buttonText: "Check Out",
-    //   image: "https://via.placeholder.com/150x100?text=Student+Deals",
-    // },
   ];
 
   return (
-    <section className="bg-gray-100 py-10">
+    <section className="bg-gray-100 mt-14 py-10">
       <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center mb-8">Special Offers</h2>
+     <div className="text-center mb-12 space-y-2">
+     <h2 className="text-3xl font-bold ">Special Offers</h2>
+     <p>Take advantage of our exclusive offers! Rent your dream car at <br /> unbeatable prices and enjoy extra perks for a limited time only</p>
+     </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
           {offers.map((offer, index) => (
             <motion.div
@@ -60,9 +58,11 @@ const SpecialOffers = () => {
               />
               <h3 className="text-xl font-semibold mb-4">{offer.title}</h3>
               <p className="text-gray-600 mb-6">{offer.description}</p>
-              <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+            <Link to={'/availableCar'}>
+            <button className="px-4 py-2 bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white  rounded-md hover:bg-blue-700">
                 {offer.buttonText}
               </button>
+            </Link>
             </motion.div>
           ))}
         </div>

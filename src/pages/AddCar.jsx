@@ -6,11 +6,13 @@ import { AuthContext } from "../provider/AuthProvider";
 import axios from "axios";
 import toast from "react-hot-toast";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { useNavigate } from "react-router-dom";
 
 const AddCar = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate()
 
   const handleAddCar = async (e) => {
     e.preventDefault();
@@ -48,6 +50,7 @@ const AddCar = () => {
       const { data } = await axiosSecure.post("/add-car", newCar);
       console.log(data);
       toast.success("Car added successfully");
+      navigate('/myCar')
     } catch (err) {
       toast.error("Something Went Wrong");
     }
@@ -238,7 +241,7 @@ const AddCar = () => {
               ></textarea>
             </div>
 
-            <button className="rounded-md w-full bg-sky-500 px-4 py-2 text-white transition-colors hover:bg-sky-600 dark:bg-sky-700">
+            <button className="rounded-md py-3 w-full bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white ">
               Add Car
             </button>
           </form>

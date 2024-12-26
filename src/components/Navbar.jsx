@@ -39,7 +39,7 @@ const Navbar = () => {
 
   return (
     <div className="sticky top-0 z-50">
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-gradient-to-r from-orange-800 to-orange-600 hover:from-orange-600 hover:to-orange-800 text-white">
         <div className="navbar-start">
           <div className="dropdown">
             <div
@@ -101,14 +101,14 @@ const Navbar = () => {
           {user && user?.email ? (
             <button
               onClick={userLogOut}
-              className="rounded-full bg-[#e91e63] hover:bg-[#d81b60] px-4 py-2 text-white transition-all duration-300 hover:scale-90"
+              className="rounded-full bg-purple-700 hover:bg-[#d81b60] px-4 py-2 text-white transition-all duration-300 hover:scale-90"
             >
               LogOut
             </button>
           ) : (
             <Link
               to="/login"
-              className="rounded-full bg-[#e91e63] hover:bg-[#d81b60] px-5 py-2 text-white transition-all duration-300 hover:scale-90"
+              className="rounded-full bg-purple-700 hover:bg-[#d81b60] px-5 py-2 text-white transition-all duration-300 hover:scale-90"
             >
               Login
             </Link>

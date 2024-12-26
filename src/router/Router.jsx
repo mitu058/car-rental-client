@@ -7,16 +7,15 @@ import AddCar from "../pages/AddCar";
 import AvailableCars from "../pages/AvailableCars";
 import CarDetails from "../pages/carDetails";
 import MyCars from "../pages/MyCars";
-import UpdateCar from "../pages/UpdateCar";
-import MyBookin from "../pages/myBooking";
 import MyBooking from "../pages/myBooking";
 import PrivateRouter from "./PrivateRouter";
+import ErrorPage from "../pages/ErrorPage";
 
 const Router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout></MainLayout>,
-    errorElement: <h2>page not found</h2>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",

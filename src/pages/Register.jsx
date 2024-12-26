@@ -1,6 +1,5 @@
 import Lottie from "lottie-react";
 import React, { useContext, useState } from "react";
-import register from "../Lottie/login-animation.json";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import toast from "react-hot-toast";
@@ -62,13 +61,9 @@ const handelRegister = e =>{
 
 
   return (
-    <div className="flex justify-center gap-16 w-[70%] mx-auto my-12">
+    <div className="flex justify-center  w-[70%] mx-auto my-12">
   <div>
-        <Lottie
-          animationData={register}
-          loop={true}
-          className="w-4/3 mx-auto items-center"
-        ></Lottie>
+        
       </div>
       <div className="w-full max-w-md rounded-lg bg-white px-10 pb-10 pt-8 shadow-md dark:bg-zinc-900">
         <div className="mb-6">
@@ -140,7 +135,7 @@ const handelRegister = e =>{
             />
           </div>
 
-          <button className="rounded-md w-full bg-sky-500 px-4 py-2 text-white transition-colors hover:bg-sky-600 dark:bg-sky-700">
+          <button className="rounded-md w-full  py-3 bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white">
             Register
           </button>
         </form>

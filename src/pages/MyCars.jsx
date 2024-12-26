@@ -45,7 +45,7 @@ const MyCars = () => {
     });
     if (result.isConfirmed) {
       try {
-        const { data } = await axios.delete(`http://localhost:5000/car/${id}`);
+        const { data } = await axios.delete(`https://car-rental-server-rosy.vercel.app/car/${id}`);
         if (data.deletedCount) {
           Swal.fire("Deleted!", "Your car has been deleted.", "success");
           fetchCarData();
@@ -80,7 +80,7 @@ const MyCars = () => {
     };
 
     try {
-      const response = await axios.put(`http://localhost:5000/updateCar/${car._id}`, updatedCar);
+      const response = await axios.put(`https://car-rental-server-rosy.vercel.app/updateCar/${car._id}`, updatedCar);
       const { modifiedCount } = response.data; // Extract modifiedCount from the response data
       if (modifiedCount) {
         Swal.fire("Update!", "Car updated successfully.", "success");
@@ -108,7 +108,7 @@ const MyCars = () => {
     <div>
       {sortedCar.length > 0 && (
         <div className="dropdown flex justify-center items-center relative mt-5">
-          <div tabIndex={0} role="button" className="btn m-1">
+          <div tabIndex={0} role="button" className="btn bg-red-600 text-white m-1">
             Sort Cars By
           </div>
           <ul
@@ -133,7 +133,7 @@ const MyCars = () => {
           <div className="overflow-x-auto">
             <table className="lg:w-[80%] mx-auto shadow-xl border border-gray-100">
               <thead>
-                <tr className="bg-red-900 text-white">
+                <tr className="bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white ">
                   <th className="py-3 px-6 text-center border-b">Image</th>
                   <th className="py-3 px-6 text-start border-b">Model</th>
                   <th className="py-3 px-6 text-start border-b">Daily Price</th>
@@ -360,12 +360,12 @@ const MyCars = () => {
             </div>
 
             <div className="modal-action mt-5">
-              <button type="submit" className="btn btn-primary">
+              <button type="submit" className="btn bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white">
                 Update
               </button>
               <button
                 type="button"
-                className="btn"
+                className="btn btn-warning"
                 onClick={() => document.getElementById("update_modal").close()}
               >
                 Close

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import Swal from "sweetalert2"; // Import SweetAlert
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ const CarDetails = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const {
     photo,
@@ -24,7 +25,9 @@ const CarDetails = () => {
 
   const fetchCarData = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:5000/car/${id}`);
+      const { data } = await axios.get(
+        `https://car-rental-server-rosy.vercel.app/car/${id}`
+      );
       setCar(data);
     } catch (error) {
       console.error("Error fetching car data:", error);
@@ -39,10 +42,10 @@ const CarDetails = () => {
     const carId = _id;
     const email = user?.email;
 
-    if(user?.email === ownerEmail) {
+    if (user?.email === ownerEmail) {
       Swal.fire({
         title: "Error!",
-        text: 'You can not book your own car',
+        text: "You can not book your own car",
         icon: "error",
         confirmButtonText: "OK",
       });
@@ -62,7 +65,7 @@ const CarDetails = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:5000/book-car",
+        "https://car-rental-server-rosy.vercel.app/book-car",
         bookData
       );
       if (data.insertedId) {
@@ -72,13 +75,15 @@ const CarDetails = () => {
           icon: "success",
           confirmButtonText: "OK",
         });
+        navigate("/myBooking");
         setIsModalOpen(false); // Close modal after booking
       }
     } catch (err) {
       // toast.error(err?.response?.data);
-      const errorMessage = err?.response?.data || "Failed to book the car. Please try again.";
+      const errorMessage =
+        err?.response?.data || "Failed to book the car. Please try again.";
       console.error("Error booking the car:", errorMessage);
-  
+
       // Display the error message using SweetAlert
       Swal.fire({
         title: "Error!",
@@ -86,7 +91,6 @@ const CarDetails = () => {
         icon: "error",
         confirmButtonText: "OK",
       });
-
     }
   };
 
@@ -111,28 +115,27 @@ const CarDetails = () => {
             <p className="text-lg font-semibold">
               Total Booking : <span className="text-sky-600">{count}</span>
             </p>
+            <div className="">
+              <button
+                onClick={() => {
+                  if (!user) {
+                    // Show SweetAlert for non-logged-in users
+                    Swal.fire({
+                      title: "Error!",
+                      text: "Please Login to Booked This Car.",
+                      icon: "error",
+                      confirmButtonText: "Okay",
+                    });
+                  } else {
+                    setIsModalOpen(true); // Open the modal if the user is logged in
+                  }
+                }}
+                className="btn bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white px-6 py-3"
+              >
+                Book Now
+              </button>
+            </div>
           </div>
-          <div className="flex justify-center">
-  <button
-    onClick={() => {
-      if (!user) {
-        // Show SweetAlert for non-logged-in users
-        Swal.fire({
-          title: 'Error!',
-          text: 'Please Login to Booked This Car.',
-          icon: 'error',
-          confirmButtonText: 'Okay',
-        });
-      } else {
-        setIsModalOpen(true); // Open the modal if the user is logged in
-      }
-    }}
-    className="btn btn-primary px-6 py-3"
-  >
-    Book Now
-  </button>
-</div>
-
         </div>
       </div>
 
@@ -161,7 +164,7 @@ const CarDetails = () => {
                 Close
               </button>
               <button
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="px-4 py-2 rounded-md bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white"
                 onClick={handleBookCar}
               >
                 Book Now

@@ -9,6 +9,7 @@ import DatePicker from "react-datepicker"; // Add react-datepicker
 import "react-datepicker/dist/react-datepicker.css"; // Add styles for react-datepicker
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid,ResponsiveContainer } from 'recharts';
+import { div } from "motion/react-client";
 
 const MyBooking = () => {
   const [bookCar, setBookCar] = useState([]);
@@ -48,7 +49,7 @@ const MyBooking = () => {
     if (result.isConfirmed) {
       try {
         const { data } = await axios.patch(
-          `http://localhost:5000/update-status/${id}`,
+          `https://car-rental-server-rosy.vercel.app/update-status/${id}`,
           { status }
         );
         if (data.modifiedCount) {
@@ -74,7 +75,7 @@ const MyBooking = () => {
     }
     try {
       const { data } = await axios.patch(
-        `http://localhost:5000/update-date/${selectedBooking._id}`,
+        `https://car-rental-server-rosy.vercel.app/update-date/${selectedBooking._id}`,
         { date: newDate, status: "Confirmed" }
       );
       if (data.modifiedCount) {
@@ -112,7 +113,7 @@ const MyBooking = () => {
           <div className="overflow-x-auto">
             <table className="lg:w-[80%] mx-auto shadow-xl border border-gray-100">
               <thead>
-                <tr className="bg-red-900 text-white">
+                <tr className="bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white ">
                   <th className="py-3 px-6 text-center border-b">Image</th>
                   <th className="py-3 px-6 text-start border-b">Model</th>
                   <th className="py-3 px-6 text-center border-b">Date</th>
@@ -190,31 +191,33 @@ const MyBooking = () => {
           </div>
         )}
       </div>
-
+      <p className="pb-3 text-2xl text-center font-bold">Your booking Status</p>
  {/* Statistics (Chart) - Car Daily Rental Prices */}
 {bookCar.length > 0 && (
   <div className="my-10 p-10 bg-gray-100 rounded-lg justify-items-center">
-  <ResponsiveContainer width="100%" height={400}>
-    <BarChart
-      data={bookCar.sort((a, b) => b.price - a.price)}
-      margin={{
-        top: 20,
-        right: 30,
-        left: 20,
-        bottom: 5,
-      }}
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="carModel" />
-      <YAxis />
-      <Bar dataKey="price" fill="#23BE0A" shape={<TriangleBar />} label={{ position: 'top' }}>
-        {bookCar.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={colors[index % 20]} />
-        ))}
-      </Bar>
-    </BarChart>
-  </ResponsiveContainer>
+  
+<ResponsiveContainer width="90%" height={400}>
+  <BarChart
+    data={bookCar.sort((a, b) => b.price - a.price)}
+    margin={{
+      top: 20,
+      right: 30,
+      left: 20,
+      bottom: 5,
+    }}
+  >
+    <CartesianGrid strokeDasharray="3 3" />
+    <XAxis dataKey="carModel" />
+    <YAxis />
+    <Bar dataKey="price" fill="#23BE0A" shape={<TriangleBar />} label={{ position: 'top' }}>
+      {bookCar.map((entry, index) => (
+        <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+      ))}
+    </Bar>
+  </BarChart>
+</ResponsiveContainer>
 </div>
+
 
 )}
 
@@ -240,7 +243,7 @@ const MyBooking = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                className="px-4 py-2 rounded-md bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white"
                 onClick={handleConfirmDateChange}
               >
                 Confirm

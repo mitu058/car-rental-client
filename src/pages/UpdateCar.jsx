@@ -12,7 +12,7 @@ const UpdateCar = () => {
   // Fetch car data by ID
   const fetchCarData = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:5000/car/${id}`);
+      const { data } = await axios.get(`https://car-rental-server-rosy.vercel.app/car/${id}`);
       setCar(data);
       setStartDate(new Date(data.date));
     
@@ -52,7 +52,7 @@ const UpdateCar = () => {
     };
 
     try {
-      await axios.put(`http://localhost:5000/updateCar/${id}`, updatedCar);
+      await axios.put(`https://car-rental-server-rosy.vercel.app/updateCar/${id}`, updatedCar);
       console.log("Car updated successfully!");
       document.getElementById("my_modal_1").close();
     } catch (error) {

@@ -1,4 +1,6 @@
 import React from 'react';
+import pageNotFound from '../assets/404_page-not-found.png'
+import { Link } from 'react-router-dom';
 
 const ErrorPage = () => {
     return (

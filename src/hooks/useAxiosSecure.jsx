@@ -4,7 +4,7 @@ import { AuthContext } from "../provider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://car-rental-server-rosy.vercel.app",
   withCredentials: true,
 });
 const useAxiosSecure = () => {
