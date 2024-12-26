@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import DatePicker from "react-datepicker"; // Add react-datepicker
 import "react-datepicker/dist/react-datepicker.css"; // Add styles for react-datepicker
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid } from 'recharts';
 
 const MyBooking = () => {
   const [bookCar, setBookCar] = useState([]);
@@ -88,6 +89,22 @@ const MyBooking = () => {
     }
   };
 
+
+    // Chart component: Bar chart for car booking daily rental prices
+    const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink','#23BE0A','#59C6D2','#9538E2','#FF8042','pink','#9538E2'];
+
+    const getPath = (x, y, width, height) => {
+      return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3}
+      ${x + width / 2}, ${y}
+      C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
+      Z`;
+    };
+    
+    const TriangleBar = (props) => {
+      const { fill, x, y, width, height } = props;
+      return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+    };
+
   return (
     <div>
       <div className="my-20">
@@ -144,7 +161,7 @@ const MyBooking = () => {
                           onClick={() =>
                             handleCancelBooking(item._id, "Canceled")
                           }
-                          disabled={item.status !== "Confirmed"} // Enable only if status is "Confirmed"
+                          disabled={!(item.status === "Confirmed" || item.status === "pending")} // Enable only if status is "Confirmed"
                         >
                           <GoTrash />
                           <span>Cancel</span>
@@ -173,6 +190,34 @@ const MyBooking = () => {
           </div>
         )}
       </div>
+
+ {/* Statistics (Chart) - Car Daily Rental Prices */}
+{bookCar.length > 0 && (
+  <div className="my-10 p-10 bg-gray-100 rounded-lg justify-items-center">
+    <BarChart
+      width={1000}
+      height={400}
+      data={bookCar}
+      margin={{
+        top: 20,
+        right: 30,
+        left: 20,
+        bottom: 5,
+      }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="carModel" />
+      <YAxis />
+      <Bar dataKey="price" fill="#23BE0A" shape={<TriangleBar />} label={{ position: 'top' }}>
+        {bookCar.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+        ))}
+      </Bar>
+    </BarChart>
+  </div>
+)}
+
+
 
       {/* Modal */}
       {isModalOpen && (
@@ -204,6 +249,10 @@ const MyBooking = () => {
         </div>
       )}
     </div>
+
+
+
+
   );
 };
 

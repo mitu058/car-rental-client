@@ -25,7 +25,7 @@ const Login = () => {
       .then((result) => {
         toast.success("login successful");
         const user = result.user;
-        // navigate("/")
+        navigate("/")
           const user1 = {email:email}
           axios.post('http://localhost:5000/jwt',user1,{withCredentials:true})
           .then((res) => {

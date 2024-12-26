@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Register = () => {
-const {setUser,updateUserProfile,creatUser} = useContext(AuthContext)
+const {setUser,updateUserProfile,creatUser,userLogOut} = useContext(AuthContext)
 const navigate = useNavigate()
 const [showPasswoed, setShowPassword] = useState(false);
 
@@ -47,6 +47,7 @@ const handelRegister = e =>{
     .then((result)=>{
         toast.success('Successfully registered')
         navigate('/login')
+        userLogOut()
         const user = result.user
         setUser(user)
         
