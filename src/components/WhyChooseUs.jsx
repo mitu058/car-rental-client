@@ -4,22 +4,22 @@ import { FaCarAlt, FaTag, FaLaptop, FaPhoneAlt } from "react-icons/fa";
 const WhyChooseUs = () => {
   const points = [
     {
-      icon: <FaCarAlt className="text-6xl text-blue-600 mb-4" />,
+      icon: <FaCarAlt className="text-5xl text-blue-600 mb-4" />,
       title: "Wide Variety of Cars",
       description: "From budget-friendly options to luxury vehicles.",
     },
     {
-      icon: <FaTag className="text-6xl text-green-600 mb-4" />,
+      icon: <FaTag className="text-5xl text-green-600 mb-4" />,
       title: "Affordable Prices",
       description: "Competitive daily rates you can count on.",
     },
     {
-      icon: <FaLaptop className="text-6xl text-purple-600 mb-4" />,
+      icon: <FaLaptop className="text-5xl text-purple-600 mb-4" />,
       title: "Easy Booking Process",
       description: "Seamlessly book your ride in just a few clicks.",
     },
     {
-      icon: <FaPhoneAlt className="text-6xl text-red-600 mb-4" />,
+      icon: <FaPhoneAlt className="text-5xl text-red-600 mb-4" />,
       title: "Customer Support",
       description: "24/7 assistance for all your queries.",
     },

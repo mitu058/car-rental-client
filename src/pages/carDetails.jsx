@@ -113,13 +113,26 @@ const CarDetails = () => {
             </p>
           </div>
           <div className="flex justify-center">
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="btn btn-primary px-6 py-3"
-            >
-              Book Now
-            </button>
-          </div>
+  <button
+    onClick={() => {
+      if (!user) {
+        // Show SweetAlert for non-logged-in users
+        Swal.fire({
+          title: 'Error!',
+          text: 'Please Login to Booked This Car.',
+          icon: 'error',
+          confirmButtonText: 'Okay',
+        });
+      } else {
+        setIsModalOpen(true); // Open the modal if the user is logged in
+      }
+    }}
+    className="btn btn-primary px-6 py-3"
+  >
+    Book Now
+  </button>
+</div>
+
         </div>
       </div>
 

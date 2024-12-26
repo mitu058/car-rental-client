@@ -22,7 +22,7 @@ const RecentListing = () => {
   }, []);
 
   return (
-    <section className="p-6 w-[80%] mx-auto">
+    <section className="p-6 md:w-[80%] mx-auto">
       <h2 className="text-2xl font-semibold text-center mb-6">Recent Listings</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {allCars.map((car) => (

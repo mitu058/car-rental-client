@@ -38,7 +38,7 @@ const Navbar = () => {
   );
 
   return (
-    <div>
+    <div className="sticky top-0 z-50">
       <div className="navbar bg-base-100">
         <div className="navbar-start">
           <div className="dropdown">
@@ -77,7 +77,7 @@ const Navbar = () => {
               className="w-12 h-12 rounded-full object-cover"
             />
             <Link to="/" className="btn btn-ghost text-2xl">
-              Car Rental
+            FlexiRide
             </Link>
           </div>
         </div>

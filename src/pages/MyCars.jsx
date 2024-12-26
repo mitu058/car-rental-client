@@ -80,14 +80,20 @@ const MyCars = () => {
     };
 
     try {
-      await axios.put(`http://localhost:5000/updateCar/${car._id}`, updatedCar);
-      toast.success("Car updated successfully!");
+      const response = await axios.put(`http://localhost:5000/updateCar/${car._id}`, updatedCar);
+      const { modifiedCount } = response.data; // Extract modifiedCount from the response data
+      if (modifiedCount) {
+        Swal.fire("Update!", "Car updated successfully.", "success");
+      } else {
+        Swal.fire("No Changes!", "No updates were made to the car.", "info");
+      }
       document.getElementById("update_modal").close();
       fetchCarData();
     } catch (error) {
       console.error("Error updating car:", error);
-      toast.error("Failed to update car");
+      Swal.fire("Error!", "Failed to update car.", "error");
     }
+    
   };
 
   // Sort cars based on selected option

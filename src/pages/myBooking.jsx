@@ -8,7 +8,7 @@ import Swal from "sweetalert2";
 import DatePicker from "react-datepicker"; // Add react-datepicker
 import "react-datepicker/dist/react-datepicker.css"; // Add styles for react-datepicker
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid,ResponsiveContainer } from 'recharts';
 
 const MyBooking = () => {
   const [bookCar, setBookCar] = useState([]);
@@ -194,10 +194,9 @@ const MyBooking = () => {
  {/* Statistics (Chart) - Car Daily Rental Prices */}
 {bookCar.length > 0 && (
   <div className="my-10 p-10 bg-gray-100 rounded-lg justify-items-center">
+  <ResponsiveContainer width="100%" height={400}>
     <BarChart
-      width={1000}
-      height={400}
-      data={bookCar}
+      data={bookCar.sort((a, b) => b.price - a.price)}
       margin={{
         top: 20,
         right: 30,
@@ -214,7 +213,9 @@ const MyBooking = () => {
         ))}
       </Bar>
     </BarChart>
-  </div>
+  </ResponsiveContainer>
+</div>
+
 )}
 
 

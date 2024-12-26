@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-
 const AvailableCars = () => {
   const [search, setSearch] = useState("");
   const [allCars, setAllCars] = useState([]);
@@ -18,16 +17,16 @@ const AvailableCars = () => {
     };
 
     fetchAllCars();
-  }, [search,sortOrder]);
+  }, [search, sortOrder]);
 
   // Filter cars with availability set to true
   const availableCars = allCars.filter((car) => car.availability === true);
 
   return (
     <div className="w-[80%] mx-auto my-14">
-      <div className="flex mb-6">
+      <div className="flex  gap-4  mb-6">
         <div>
-        <select
+          <select
             className="border px-4 py-2"
             onChange={(e) => setSortOrder(e.target.value)}
             value={sortOrder}
@@ -37,32 +36,28 @@ const AvailableCars = () => {
             <option value="desc">Desecending</option>
           </select>
         </div>
- {/* Search Input */}
- <div className=" p-1 w-[30%] mx-auto overflow-hidden border rounded-lg focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300 mb-4">
-        <input
-          className="px-6 py-2 text-gray-700 placeholder-gray-500 bg-white outline-none focus:placeholder-transparent"
-          type="text"
-          name="search"
-          onChange={(e) => setSearch(e.target.value)}
-          value={search}
-          placeholder="Search car by Car Model"
-          aria-label="Search for cars"
-        />
+        {/* Search Input */}
+        <div className=" p-1 lg:w-[30%] mx-auto overflow-hidden border rounded-lg focus-within:ring focus-within:ring-opacity-40 focus-within:border-blue-400 focus-within:ring-blue-300 mb-4">
+          <input
+            className="px-6 py-2 text-gray-700 placeholder-gray-500 bg-white outline-none focus:placeholder-transparent"
+            type="text"
+            name="search"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+            placeholder="Search car by Car Model"
+            aria-label="Search for cars"
+          />
+        </div>
+        {/* Toggle Button */}
+        <div className="">
+          <button
+            className="rounded-md  px-4 py-2 text-white bg-blue-500 hover:bg-blue-600"
+            onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
+          >
+            Switch to {viewMode === "grid" ? "List" : "Grid"} View
+          </button>
+        </div>
       </div>
-       {/* Toggle Button */}
-       <div className="">
-        <button
-          className="rounded-md px-4 py-2 text-white bg-blue-500 hover:bg-blue-600"
-          onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
-        >
-          Switch to {viewMode === "grid" ? "List" : "Grid"} View
-        </button>
-      </div>
-
-      </div>
-     
-
-     
 
       {/* Cars Display */}
       {viewMode === "grid" ? (
@@ -77,15 +72,17 @@ const AvailableCars = () => {
                 alt={car.carModel}
                 className="h-[200px] w-full mb-5 rounded-lg object-cover"
               />
-            <div className="space-y-1">
-            <h1 className="text-lg font-semibold ">Model : {car.carModel}</h1>
-              <p className="text-lg font-semibold ">
-                Features : {car.features}
-              </p>
-              <p className="text-lg font-semibold ">
-                Location : {car.location}
-              </p>
-            </div>
+              <div className="space-y-1">
+                <h1 className="text-lg font-semibold ">
+                  Model : {car.carModel}
+                </h1>
+                <p className="text-lg font-semibold ">
+                  Features : {car.features}
+                </p>
+                <p className="text-lg font-semibold ">
+                  Location : {car.location}
+                </p>
+              </div>
               <p className="text-lg font-semibold">Price : ${car.price}</p>
               <div>
                 <Link to={`/cardetails/${car._id}`}>
@@ -98,7 +95,7 @@ const AvailableCars = () => {
           ))}
         </div>
       ) : (
-        <div className="space-y-6 w-[60%] mx-auto ">
+        <div className="space-y-6 lg:w-[60%] mx-auto ">
           {availableCars.map((car) => (
             <div
               key={car._id}
@@ -113,19 +110,22 @@ const AvailableCars = () => {
               {/* Car Details */}
               <div className="flex flex-col justify-center space-y-1">
                 <h1 className="text-lg font-semibold">{car.carModel}</h1>
-                <p className="text-base text-gray-600">Features : {car.features}</p>
-                <p className="text-base text-gray-600">Location : {car.location}</p>
+                <p className="text-base text-gray-600">
+                  Features : {car.features}
+                </p>
+                <p className="text-base text-gray-600">
+                  Location : {car.location}
+                </p>
                 <p className="text-base text-gray-600">Price : ${car.price}</p>
                 <div className="">
-                <Link to={`/cardetails/${car._id}`}>
-                  <button className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-                    Book Now
-                  </button>
-                </Link>
-              </div>
+                  <Link to={`/cardetails/${car._id}`}>
+                    <button className="rounded-md bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
+                      Book Now
+                    </button>
+                  </Link>
+                </div>
               </div>
               {/* Book Now Button */}
-            
             </div>
           ))}
         </div>
