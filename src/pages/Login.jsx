@@ -7,14 +7,15 @@ import auth from "../firebase/firebase.config";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import googlelogo from "../assets/gogle.png";
+import loginrent from "../assets/Car rental-pana.png";
 
 const Login = () => {
   const { signInUser, setUser } = useContext(AuthContext);
-  const [showPasswoed, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const provider = new GoogleAuthProvider();
   const navigate = useNavigate();
 
-  const handelLogin = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
@@ -22,42 +23,45 @@ const Login = () => {
 
     signInUser(email, password)
       .then((result) => {
-        toast.success("login successful");
+        toast.success("Login successful");
         const user = result.user;
         navigate("/");
-        const user1 = { email: email };
+
+        const user1 = { email };
         axios
           .post("https://car-rental-server-rosy.vercel.app/jwt", user1, { withCredentials: true })
-          .then((res) => {
-            console.log(res.data);
-          });
+          .then((res) => console.log(res.data));
+
         setUser(user);
       })
-      .catch((error) => {
-        toast.error("failed to login");
+      .catch(() => {
+        toast.error("Failed to login");
       });
   };
 
   const googleLogIn = (e) => {
     e.preventDefault();
     signInWithPopup(auth, provider)
-      .then((result) => {
-        toast.success("login successful");
+      .then(() => {
+        toast.success("Login successful");
         navigate("/");
       })
-      .cath((error) => {
-        toast.error("failed to login with google");
+      .catch((error) => {
+        toast.error("Failed to login with Google");
         console.error(error);
       });
   };
 
   return (
-    <div className="my-14 flex-col lg:flex justify-between px-4 lg:w-[80%] mx-auto items-center">
-      <div className="mx-auto w-full max-w-md space-y-4 rounded-lg border  bg-white p-10 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
+    <div className="my-14 flex flex-col lg:flex-row  justify-between px-4 lg:w-[80%] mx-auto items-center">
+      <div>
+        <img className="" src={loginrent} alt="Car Rental Illustration" />
+      </div>
+      <div className="mx-auto w-full max-w-md space-y-4 rounded-lg border bg-white p-10 shadow-lg dark:border-zinc-700 dark:bg-zinc-900">
         <h1 className="text-3xl text-center font-semibold">Login</h1>
-        <form onSubmit={handelLogin} action="#" className="space-y-6">
+        <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2 text-sm text-zinc-700 dark:text-zinc-300">
-            <label htmlFor="username_2" className="block font-medium">
+            <label htmlFor="email" className="block font-medium">
               Email
             </label>
             <input
@@ -69,10 +73,7 @@ const Login = () => {
             />
           </div>
           <div className="space-y-2 text-sm relative">
-            <label
-              htmlFor="password"
-              className="block text-base text-zinc-700 dark:text-zinc-300 font-medium"
-            >
+            <label htmlFor="password" className="block text-base text-zinc-700 dark:text-zinc-300 font-medium">
               Password
             </label>
             <input
@@ -80,22 +81,17 @@ const Login = () => {
               id="password"
               placeholder="Enter password"
               name="password"
-              type={showPasswoed ? "text" : "password"}
+              type={showPassword ? "text" : "password"}
               required
             />
-
             <div
-              onClick={() => setShowPassword(!showPasswoed)}
-              className="btn btn-xs absolute right-3 top-8"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-10 cursor-pointer text-zinc-600 dark:text-zinc-400"
             >
-              {showPasswoed ? <FaEyeSlash></FaEyeSlash> : <FaEye></FaEye>}
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
             </div>
-
             <div className="flex justify-end text-xs">
-              <a
-                href="#"
-                className="text-zinc-700 hover:underline text-base dark:text-zinc-300"
-              >
+              <a href="#" className="text-zinc-700 hover:underline text-base dark:text-zinc-300">
                 Forgot Password?
               </a>
             </div>
@@ -106,7 +102,7 @@ const Login = () => {
         </form>
         <p className="text-center text-sm text-zinc-700 dark:text-zinc-300">
           Don&apos;t have an account?
-          <Link to="/register" className="font-semibold underline">
+          <Link to="/register" className="font-semibold underline ml-1">
             Register
           </Link>
         </p>
@@ -115,17 +111,15 @@ const Login = () => {
           <div className="mx-4 text-gray-400">OR</div>
           <hr className="flex-1 border-gray-400" />
         </div>
-        {/* Social icons */}
         <button
           onClick={googleLogIn}
           aria-label="Log in with Google"
-          className="flex items-center space-x-3 w-full btn px-4 py-2"
+          className="flex items-center justify-center space-x-3 w-full px-4 py-2 border rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
         >
           <img className="h-8 w-8" src={googlelogo} alt="Google Logo" />
-          <span>login With Google</span>
+          <span>Login With Google</span>
         </button>
       </div>
-    
     </div>
   );
 };
