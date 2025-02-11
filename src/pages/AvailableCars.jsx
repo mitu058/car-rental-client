@@ -29,7 +29,7 @@ const AvailableCars = () => {
 
   return (
     <div className="w-[80%] mx-auto my-14">
-      <div className="flex gap-4 mb-6">
+      <div className="flex flex-col lg:flex-row gap-4 mb-6">
         <div>
           <select
             className="border px-4 py-2"
