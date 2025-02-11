@@ -16,20 +16,26 @@ const MyCars = () => {
   const [sortOption, setSortOption] = useState("");
   const [car, setCar] = useState(null);
   const [availability, setAvailability] = useState(false);
+  const [loading, setLoading] = useState(false);  // Add loading state
   const axiosSecure = useAxiosSecure();
 
   // Fetch all cars of the user
   const fetchCarData = async () => {
+    setLoading(true); // Set loading to true before fetching data
     try {
       const { data } = await axiosSecure.get(`/cars/${user?.email}`);
       setMyCar(data);
     } catch (error) {
       console.error("Error fetching car data:", error);
+    } finally {
+      setLoading(false); // Set loading to false once data is fetched
     }
   };
 
   useEffect(() => {
-    fetchCarData();
+    if (user?.email) {
+      fetchCarData();
+    }
   }, [user?.email]);
 
   // Handle car deletion
@@ -59,7 +65,6 @@ const MyCars = () => {
   // Open modal with car data for updating
   const handleEditCar = (carData) => {
     setCar(carData);
-
     setAvailability(carData.availability);
     document.getElementById("update_modal").showModal();
   };
@@ -81,7 +86,7 @@ const MyCars = () => {
 
     try {
       const response = await axios.put(`https://car-rental-server-rosy.vercel.app/updateCar/${car._id}`, updatedCar);
-      const { modifiedCount } = response.data; // Extract modifiedCount from the response data
+      const { modifiedCount } = response.data;
       if (modifiedCount) {
         Swal.fire("Update!", "Car updated successfully.", "success");
       } else {
@@ -93,7 +98,6 @@ const MyCars = () => {
       console.error("Error updating car:", error);
       Swal.fire("Error!", "Failed to update car.", "error");
     }
-    
   };
 
   // Sort cars based on selected option
@@ -106,7 +110,13 @@ const MyCars = () => {
 
   return (
     <div>
-      {sortedCar.length > 0 && (
+      {loading && (
+        <div className='flex h-screen justify-center items-center'>
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      )}
+
+      {!loading && sortedCar.length > 0 && (
         <div className="dropdown flex justify-center items-center relative mt-5">
           <div tabIndex={0} role="button" className="btn bg-red-600 text-white m-1">
             Sort Cars By
@@ -128,89 +138,90 @@ const MyCars = () => {
           </ul>
         </div>
       )}
-      <div className="my-20">
-        {sortedCar.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="lg:w-[80%] mx-auto shadow-xl border border-gray-100">
-              <thead>
-                <tr className="bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white ">
-                  <th className="py-3 px-6 text-center border-b">Image</th>
-                  <th className="py-3 px-6 text-start border-b">Model</th>
-                  <th className="py-3 px-6 text-start border-b">Daily Price</th>
-                  <th className="py-3 px-6 text-start border-b">Booked</th>
-                  <th className="py-3 px-6 text-center border-b">
-                    Availability
-                  </th>
-                  <th className="py-3 px-6 text-center border-b">Date</th>
-                  <th className="py-3 px-6 text-center border-b">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sortedCar.map((item) => (
-                  <tr key={item._id} className="hover:bg-gray-100">
-                    <td className="py-4 px-6 text-center border-b">
-                      <img
-                        src={item.photo}
-                        alt={item.name}
-                        className="w-12 h-12 rounded-full mx-auto"
-                      />
-                    </td>
-                    <td className="py-4 px-6 text-start border-b">
-                      {item.carModel}
-                    </td>
-                    <td className="py-4 px-6 text-start border-b">
-                      {item.price}
-                    </td>
-                    <td className="py-4 px-6 text-start border-b">
-                      {item.count}
-                    </td>
-                    <td className="py-4 px-6 text-center border-b">
-                      {item.availability ? (
-                        <span className="text-green-600 font-semibold">
-                          Available
-                        </span>
-                      ) : (
-                        <span className="text-gray-500">N/A</span>
-                      )}
-                    </td>
-                    <td className="py-4 px-6 text-center border-b">
-                      {format(new Date(item.date), "P")}
-                    </td>
-                    <td className="py-4 px-6 text-center border-b">
-                      <div className="flex space-x-4 text-lg">
-                        <button
-                          onClick={() => handleEditCar(item)}
-                          className="hover:text-blue-600"
-                        >
-                          <FaRegEdit />
-                        </button>
-                        <button
-                          className="hover:text-red-500"
-                          onClick={() => handleDeleteCar(item._id)}
-                        >
-                          <GoTrash />
-                        </button>
-                      </div>
-                    </td>
+
+      {!loading && (
+        <div className="my-20">
+          {sortedCar.length > 0 ? (
+            <div className="overflow-x-auto">
+              <table className="lg:w-[80%] mx-auto shadow-xl border border-gray-100">
+                <thead>
+                  <tr className="bg-fuchsia-900 text-white ">
+                    <th className="py-3 px-6 text-center border-b">Image</th>
+                    <th className="py-3 px-6 text-start border-b">Model</th>
+                    <th className="py-3 px-6 text-start border-b">Daily Price</th>
+                    <th className="py-3 px-6 text-start border-b">Booked</th>
+                    <th className="py-3 px-6 text-center border-b">Availability</th>
+                    <th className="py-3 px-6 text-center border-b">Date</th>
+                    <th className="py-3 px-6 text-center border-b">Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="text-center mt-10">
-            <p className="text-xl font-semibold">
-              You haven't added any cars yet. Start by adding a car to your
-              list!
-            </p>
-            <Link to={"/addCar"}>
-              <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">
-                Add Your First Car
-              </button>
-            </Link>
-          </div>
-        )}
-      </div>
+                </thead>
+                <tbody>
+                  {sortedCar.map((item) => (
+                    <tr key={item._id} className="hover:bg-gray-100">
+                      <td className="py-4 px-6 text-center border-b">
+                        <img
+                          src={item.photo}
+                          alt={item.name}
+                          className="w-12 h-12 rounded-full mx-auto"
+                        />
+                      </td>
+                      <td className="py-4 px-6 text-start border-b">
+                        {item.carModel}
+                      </td>
+                      <td className="py-4 px-6 text-start border-b">
+                        {item.price}
+                      </td>
+                      <td className="py-4 px-6 text-start border-b">
+                        {item.count}
+                      </td>
+                      <td className="py-4 px-6 text-center border-b">
+                        {item.availability ? (
+                          <span className="text-green-600 font-semibold">
+                            Available
+                          </span>
+                        ) : (
+                          <span className="text-gray-500">N/A</span>
+                        )}
+                      </td>
+                      <td className="py-4 px-6 text-center border-b">
+                        {format(new Date(item.date), "P")}
+                      </td>
+                      <td className="py-4 px-6 text-center border-b">
+                        <div className="flex space-x-4 text-lg">
+                          <button
+                            onClick={() => handleEditCar(item)}
+                            className="hover:text-blue-600"
+                          >
+                            <FaRegEdit />
+                          </button>
+                          <button
+                            className="hover:text-red-500"
+                            onClick={() => handleDeleteCar(item._id)}
+                          >
+                            <GoTrash />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="text-center mt-10">
+              <p className="text-xl font-semibold">
+                You haven't added any cars yet. Start by adding a car to your
+                list!
+              </p>
+              <Link to={"/addCar"}>
+                <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none">
+                  Add Your First Car
+                </button>
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Update Modal */}
       <dialog id="update_modal" className="modal">
@@ -293,18 +304,6 @@ const MyCars = () => {
                   >
                     Backup Camera
                   </option>
-                  <option
-                    value="Leather Seats"
-                    selected={car?.features === "Leather Seats"}
-                  >
-                    Leather Seats
-                  </option>
-                  <option
-                    value="Heated Seats"
-                    selected={car?.features === "Heated Seats"}
-                  >
-                    Heated Seats
-                  </option>
                 </select>
               </div>
               <div>
@@ -320,53 +319,40 @@ const MyCars = () => {
                 />
               </div>
               <div>
-                <label htmlFor="availability" className="block mb-2">
-                  Availability
+                <label htmlFor="photo" className="block mb-2">
+                  Photo URL
                 </label>
                 <input
-                  type="checkbox"
-                  id="availability"
-                  name="availability"
-                  checked={availability}
-                  onChange={(e) => setAvailability(e.target.checked)}
-                  className="toggle toggle-primary"
+                  type="text"
+                  id="photo"
+                  name="photo"
+                  defaultValue={car?.photo}
+                  className="input input-bordered w-full"
                 />
               </div>
+              <div>
+                <label htmlFor="description" className="block mb-2">
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  defaultValue={car?.description}
+                  className="textarea textarea-bordered w-full"
+                ></textarea>
+              </div>
             </div>
-
-            <div>
-              <label htmlFor="photo" className="block mb-2">
-                Photo URL
-              </label>
-              <input
-                type="text"
-                id="photo"
-                name="photo"
-                defaultValue={car?.photo}
-                className="input input-bordered w-full"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="description" className="block mb-2">
-                Description
-              </label>
-              <textarea
-                id="description"
-                name="description"
-                defaultValue={car?.description}
-                className="textarea textarea-bordered w-full"
-              ></textarea>
-            </div>
-
-            <div className="modal-action mt-5">
-              <button type="submit" className="btn bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white">
+            <div className="flex justify-center gap-5 mt-6">
+              <button
+                type="submit"
+                className="btn btn-success w-1/3 text-white"
+              >
                 Update
               </button>
               <button
                 type="button"
-                className="btn btn-warning"
                 onClick={() => document.getElementById("update_modal").close()}
+                className="btn btn-danger w-1/3"
               >
                 Close
               </button>

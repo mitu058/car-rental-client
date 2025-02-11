@@ -5,27 +5,28 @@ import { format } from "date-fns";
 import { GoTrash } from "react-icons/go";
 import { SlCalender } from "react-icons/sl";
 import Swal from "sweetalert2";
-import DatePicker from "react-datepicker"; // Add react-datepicker
-import "react-datepicker/dist/react-datepicker.css"; // Add styles for react-datepicker
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import useAxiosSecure from "../hooks/useAxiosSecure";
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid,ResponsiveContainer } from 'recharts';
-import { div } from "motion/react-client";
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 
 const MyBooking = () => {
   const [bookCar, setBookCar] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [newDate, setNewDate] = useState(new Date());
+  const [loading, setLoading] = useState(true);  // State to handle loading
   const { user } = useContext(AuthContext);
   const axiosSecure = useAxiosSecure();
 
   const fetchCarData = async () => {
     try {
       const { data } = await axiosSecure.get(`/booked-car/${user?.email}`);
-
       setBookCar(data);
+      setLoading(false);  // Stop loading once data is fetched
     } catch (error) {
       console.error("Error fetching car data:", error);
+      setLoading(false);  // Stop loading on error
     }
   };
 
@@ -33,7 +34,6 @@ const MyBooking = () => {
     fetchCarData();
   }, [user?.email]);
 
-  // Handle car Booking
   const handleCancelBooking = async (id, status) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -90,30 +90,32 @@ const MyBooking = () => {
     }
   };
 
+  const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink','#23BE0A','#59C6D2','#9538E2','#FF8042','pink','#9538E2'];
 
-    // Chart component: Bar chart for car booking daily rental prices
-    const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', 'red', 'pink','#23BE0A','#59C6D2','#9538E2','#FF8042','pink','#9538E2'];
+  const getPath = (x, y, width, height) => {
+    return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3}
+    ${x + width / 2}, ${y}
+    C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
+    Z`;
+  };
 
-    const getPath = (x, y, width, height) => {
-      return `M${x},${y + height}C${x + width / 3},${y + height} ${x + width / 2},${y + height / 3}
-      ${x + width / 2}, ${y}
-      C${x + width / 2},${y + height / 3} ${x + (2 * width) / 3},${y + height} ${x + width}, ${y + height}
-      Z`;
-    };
-    
-    const TriangleBar = (props) => {
-      const { fill, x, y, width, height } = props;
-      return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
-    };
+  const TriangleBar = (props) => {
+    const { fill, x, y, width, height } = props;
+    return <path d={getPath(x, y, width, height)} stroke="none" fill={fill} />;
+  };
 
   return (
     <div>
       <div className="my-20">
-        {bookCar.length > 0 ? (
+        {loading ? (
+         <div className='flex h-screen justify-center items-center'>
+         <span className="loading loading-spinner loading-lg"></span>
+       </div>
+        ) : bookCar.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="lg:w-[80%] mx-auto shadow-xl border border-gray-100">
               <thead>
-                <tr className="bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white ">
+                <tr className="bg-fuchsia-900 text-white ">
                   <th className="py-3 px-6 text-center border-b">Image</th>
                   <th className="py-3 px-6 text-start border-b">Model</th>
                   <th className="py-3 px-6 text-center border-b">Date</th>
@@ -162,7 +164,7 @@ const MyBooking = () => {
                           onClick={() =>
                             handleCancelBooking(item._id, "Canceled")
                           }
-                          disabled={!(item.status === "Confirmed" || item.status === "pending")} // Enable only if status is "Confirmed"
+                          disabled={!(item.status === "Confirmed" || item.status === "pending")}
                         >
                           <GoTrash />
                           <span>Cancel</span>
@@ -171,7 +173,7 @@ const MyBooking = () => {
                         <button
                           className="flex disabled:cursor-not-allowed items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
                           onClick={() => handleModifyDate(item)}
-                          disabled={item.status === "Canceled"} // Disable if status is "Canceled"
+                          disabled={item.status === "Canceled"}
                         >
                           <SlCalender />
                           <span>Modify Date</span>
@@ -192,36 +194,32 @@ const MyBooking = () => {
         )}
       </div>
       <p className="pb-3 text-2xl text-center font-bold">Your booking Status</p>
- {/* Statistics (Chart) - Car Daily Rental Prices */}
-{bookCar.length > 0 && (
-  <div className="my-10 p-10 bg-gray-100 rounded-lg justify-items-center">
-  
-<ResponsiveContainer width="90%" height={400}>
-  <BarChart
-    data={bookCar.sort((a, b) => b.price - a.price)}
-    margin={{
-      top: 20,
-      right: 30,
-      left: 20,
-      bottom: 5,
-    }}
-  >
-    <CartesianGrid strokeDasharray="3 3" />
-    <XAxis dataKey="carModel" />
-    <YAxis />
-    <Bar dataKey="price" fill="#23BE0A" shape={<TriangleBar />} label={{ position: 'top' }}>
-      {bookCar.map((entry, index) => (
-        <Cell key={`cell-${index}`} fill={colors[index % 20]} />
-      ))}
-    </Bar>
-  </BarChart>
-</ResponsiveContainer>
-</div>
 
-
-)}
-
-
+      {/* Statistics (Chart) - Car Daily Rental Prices */}
+      {bookCar.length > 0 && (
+        <div className="my-10 p-10 bg-gray-100 rounded-lg justify-items-center">
+          <ResponsiveContainer width="90%" height={400}>
+            <BarChart
+              data={bookCar.sort((a, b) => b.price - a.price)}
+              margin={{
+                top: 20,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="carModel" />
+              <YAxis />
+              <Bar dataKey="price" fill="#23BE0A" shape={<TriangleBar />} label={{ position: 'top' }}>
+                {bookCar.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={colors[index % 20]} />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      )}
 
       {/* Modal */}
       {isModalOpen && (
@@ -253,10 +251,6 @@ const MyBooking = () => {
         </div>
       )}
     </div>
-
-
-
-
   );
 };
 

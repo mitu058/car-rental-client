@@ -1,13 +1,14 @@
 
-import Navbar from "../Components/Navbar";
+
 import { Outlet, useNavigation } from "react-router-dom";
 import Footer from "../components/Footer";
 
 import { Toaster } from "react-hot-toast";
+import Navbar from "../components/Navbar";
 
 const MainLayout = () => {
-  const navigaton = useNavigation();
-  const isNavigation = navigaton.state === "loading";
+  const navigation = useNavigation();
+  const isNavigation = navigation.state === "loading";
   return (
     <div className="">
         <Toaster></Toaster>
