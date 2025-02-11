@@ -1,5 +1,5 @@
 import React from 'react';
-import pageNotFound from '../assets/404_page-not-found.png'
+import pageNotFound from '../assets/istockphoto-500770233-1024x1024.jpg'
 import { Link } from 'react-router-dom';
 
 const ErrorPage = () => {
