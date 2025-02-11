@@ -95,16 +95,16 @@ const CarDetails = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto my-16 space-y-6">
-      <div className="flex gap-12">
-        <div className="w-1/2">
+    <div className="max-w-6xl mx-auto my-16 space-y-6 px-4">
+      <div className="flex flex-col lg:flex-row gap-12">
+        <div className="w-full lg:w-1/2">
           <img
             src={photo}
             alt={`Car Model: ${carModel}`}
             className="object-cover w-full h-full rounded-lg shadow-md"
           />
         </div>
-        <div className="w-1/2 space-y-4">
+        <div className="lg:w-1/2 space-y-4">
           <div className="space-y-3">
             <h1 className="text-3xl font-bold">Model: {carModel}</h1>
             <p className="text-lg text-gray-700">{description}</p>
