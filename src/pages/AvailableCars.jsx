@@ -103,7 +103,7 @@ const AvailableCars = () => {
           {availableCars.map((car) => (
             <div
               key={car._id}
-              className="flex  space-x-10 rounded-lg bg-white p-6 shadow-lg dark:bg-[#18181B]"
+              className="flex flex-col lg:flex-row space-x-10 rounded-lg bg-white p-6 shadow-lg dark:bg-[#18181B]"
             >
               {/* Car Image */}
               <img

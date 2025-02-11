@@ -6,41 +6,77 @@ import logo from "../assets/0x0.webp";
 const Navbar = () => {
   const { user, userLogOut } = useContext(AuthContext);
   const links = (
-    <>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
-      <li>
-        <NavLink to="/availableCar">Available Cars</NavLink>
-      </li>
+    <div className='space-x-7'>
+      <NavLink
+        to="/"
+        className={({ isActive }) =>
+          `font-bold text-sm ${
+            isActive ? "text-black border-b" : ""
+          }`
+        }
+      >
+        <span>Home</span>
+      </NavLink>
+
+      <NavLink
+        to="/availableCar"
+        className={({ isActive }) =>
+          `font-bold text-sm ${
+            isActive ? "text-black border-b" : ""
+          }`
+        }
+      >
+        <span>Available Car</span>
+      </NavLink>
       {user && user?.email ? (
-        <li>
-          <NavLink to="/addCar">Add Car</NavLink>
-        </li>
+        <NavLink
+          to="/addCar"
+          className={({ isActive }) =>
+            `font-bold text-sm ${
+              isActive ? "text-black border-b" : ""
+            }`
+          }
+        >
+          <span>Add Car</span>
+        </NavLink>
       ) : (
         ""
       )}
       {user && user?.email ? (
-        <li>
-          <NavLink to="/myCar">My Cars</NavLink>
-        </li>
+        <NavLink
+          to="/myCar"
+          className={({ isActive }) =>
+            `font-bold text-sm ${
+              isActive ? "text-black border-b" : ""
+            }`
+          }
+        >
+          <span>My Cars</span>
+        </NavLink>
       ) : (
         ""
       )}
       {user && user?.email ? (
-        <li>
-          <NavLink to="/myBooking">My Bookings</NavLink>
-        </li>
+        <NavLink
+          to="/myBooking"
+          className={({ isActive }) =>
+            `font-bold text-sm ${
+              isActive ? "text-black border-b" : ""
+            }`
+          }
+        >
+          <span>My Bookings</span>
+        </NavLink>
       ) : (
         ""
       )}
-    </>
+    </div>
   );
 
   return (
     <div className="sticky top-0 z-50">
-      <div className="navbar bg-gradient-to-r from-orange-800 to-orange-600 hover:from-orange-600 hover:to-orange-800 lg:text-white">
-        <div className="navbar-start">
+      <div className="navbar px-10 bg-gradient-to-r from-orange-800 to-orange-600 hover:from-orange-600 hover:to-orange-800 lg:text-white">
+        <div className="navbar-start ">
           <div className="dropdown">
             <div
               tabIndex={0}
@@ -76,12 +112,12 @@ const Navbar = () => {
               alt="Logo"
               className="w-12 h-12 rounded-full object-cover"
             />
-            <Link to="/" className="btn btn-ghost text-2xl">
-            FlexiRide
+            <Link to="/" className="btn btn-ghost text-2xl lg:block hidden">
+              FlexiRide
             </Link>
           </div>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center hidden lg:flex flex-col ">
           <ul className="menu menu-horizontal space-x-4 px-1">{links}</ul>
         </div>
         <div className="navbar-end space-x-4">
@@ -92,7 +128,6 @@ const Navbar = () => {
                 src={user?.photoURL}
                 alt="User Avatar"
               />
-             
             </div>
           ) : (
             ""
