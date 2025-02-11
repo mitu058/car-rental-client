@@ -2,7 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import AOS from "aos";
-import "aos/dist/aos.css"; // Import AOS CSS
+import "aos/dist/aos.css"; // Import AOS 
+import { FaTh, FaList } from "react-icons/fa"; 
+
 
 const AvailableCars = () => {
   const [search, setSearch] = useState("");
@@ -53,13 +55,15 @@ const AvailableCars = () => {
         </div>
         {/* Toggle Button */}
         <div>
-          <button
-            className="rounded-md px-4 py-2 bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white"
-            onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
-          >
-            Switch to {viewMode === "grid" ? "List" : "Grid"} View
-          </button>
-        </div>
+   <button
+     className="rounded-md px-4 py-2 bg-gradient-to-r from-orange-700 to-orange-500 hover:from-orange-500 hover:to-orange-700 text-white flex items-center gap-2"
+     onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}
+   >
+     {viewMode === "grid" ? <FaList /> : <FaTh />}
+     Switch to {viewMode === "grid" ? "List" : "Grid"} View
+   </button>
+</div>
+
       </div>
 
       {/* Cars Display */}
@@ -70,7 +74,7 @@ const AvailableCars = () => {
               key={car._id}
               data-aos="fade-up"
               data-aos-duration="2000" // Apply zoom-in-left animation here
-              className="max-w-[350px] rounded-lg bg-white p-6 shadow-lg dark:bg-[#18181B]"
+              className="max-w-[350px] rounded-lg bg-white p-4 lg:p-6 shadow-lg dark:bg-[#18181B]"
             >
               <img
                 src={car.photo}
@@ -99,7 +103,7 @@ const AvailableCars = () => {
           {availableCars.map((car) => (
             <div
               key={car._id}
-              className="flex space-x-10 rounded-lg bg-white p-6 shadow-lg dark:bg-[#18181B]"
+              className="flex  space-x-10 rounded-lg bg-white p-6 shadow-lg dark:bg-[#18181B]"
             >
               {/* Car Image */}
               <img
