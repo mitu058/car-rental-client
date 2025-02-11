@@ -112,7 +112,7 @@ const MyCars = () => {
     <div>
       {loading && (
         <div className='flex h-screen justify-center items-center'>
-          <span className="loading loading-spinner loading-lg"></span>
+          <span className="loading loading-bars loading-lg"></span>
         </div>
       )}
 

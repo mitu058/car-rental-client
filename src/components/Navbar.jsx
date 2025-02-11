@@ -6,12 +6,12 @@ import logo from "../assets/0x0.webp";
 const Navbar = () => {
   const { user, userLogOut } = useContext(AuthContext);
   const links = (
-    <div className='space-x-7'>
+    <div className='lg:space-x-7 lg:space-y-0 space-y-2 flex flex-col lg:flex-row'>
       <NavLink
         to="/"
         className={({ isActive }) =>
           `font-bold text-sm ${
-            isActive ? "text-black border-b" : ""
+            isActive ? "lg:text-black text-fuchsia-800  border-b" : ""
           }`
         }
       >
@@ -22,7 +22,7 @@ const Navbar = () => {
         to="/availableCar"
         className={({ isActive }) =>
           `font-bold text-sm ${
-            isActive ? "text-black border-b" : ""
+            isActive ? "lg:text-black text-fuchsia-800  border-b" : ""
           }`
         }
       >
@@ -33,7 +33,7 @@ const Navbar = () => {
           to="/addCar"
           className={({ isActive }) =>
             `font-bold text-sm ${
-              isActive ? "text-black border-b" : ""
+              isActive ? "lg:text-black text-fuchsia-800  border-b" : ""
             }`
           }
         >
@@ -47,7 +47,7 @@ const Navbar = () => {
           to="/myCar"
           className={({ isActive }) =>
             `font-bold text-sm ${
-              isActive ? "text-black border-b" : ""
+              isActive ? "lg:text-black text-fuchsia-800  border-b" : ""
             }`
           }
         >
@@ -61,7 +61,7 @@ const Navbar = () => {
           to="/myBooking"
           className={({ isActive }) =>
             `font-bold text-sm ${
-              isActive ? "text-black border-b" : ""
+              isActive ? "lg:text-black text-fuchsia-800  border-b" : ""
             }`
           }
         >
@@ -70,6 +70,16 @@ const Navbar = () => {
       ) : (
         ""
       )}
+      <NavLink
+        to="/rental-policy"
+        className={({ isActive }) =>
+          `font-bold text-sm ${
+            isActive ? "lg:text-black text-fuchsia-800  border-b" : ""
+          }`
+        }
+      >
+        <span>Rental Policy</span>
+      </NavLink>
     </div>
   );
 
@@ -106,13 +116,13 @@ const Navbar = () => {
               {links}
             </ul>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex justify-center items-center space-x-2">
             <img
               src={logo}
               alt="Logo"
               className="w-12 h-12 rounded-full object-cover"
             />
-            <Link to="/" className="btn btn-ghost text-2xl lg:block hidden">
+            <Link to="/" className="btn btn-sm btn-ghost text-2xl lg:block hidden">
               FlexiRide
             </Link>
           </div>

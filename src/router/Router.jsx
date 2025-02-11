@@ -10,6 +10,7 @@ import MyCars from "../pages/MyCars";
 import MyBooking from "../pages/myBooking";
 import PrivateRouter from "./PrivateRouter";
 import ErrorPage from "../pages/ErrorPage";
+import RentalPolicy from "../pages/RentalPolicy";
 
 const Router = createBrowserRouter([
   {
@@ -23,12 +24,15 @@ const Router = createBrowserRouter([
       },
       {
         path: "/addCar",
-        element: <PrivateRouter><AddCar></AddCar></PrivateRouter>,
+        element: (
+          <PrivateRouter>
+            <AddCar></AddCar>
+          </PrivateRouter>
+        ),
       },
       {
         path: "/availableCar",
         element: <AvailableCars></AvailableCars>,
-        
       },
       {
         path: "/cardetails/:id",
@@ -36,16 +40,28 @@ const Router = createBrowserRouter([
       },
       {
         path: "/myCar",
-        element: <PrivateRouter><MyCars></MyCars></PrivateRouter>,
+        element: (
+          <PrivateRouter>
+            <MyCars></MyCars>
+          </PrivateRouter>
+        ),
       },
       {
-        path:'/myBooking',
-        element:<PrivateRouter><MyBooking></MyBooking></PrivateRouter>
+        path: "/myBooking",
+        element: (
+          <PrivateRouter>
+            <MyBooking></MyBooking>
+          </PrivateRouter>
+        ),
       },
       // {
       //   path: "/updateCar/:id",
       //   element: <UpdateCar></UpdateCar>,
       // },
+      {
+        path: "/rental-policy",
+        element: <RentalPolicy></RentalPolicy>,
+      },
       {
         path: "/login",
         element: <Login></Login>,

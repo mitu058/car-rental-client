@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Banner = () => {
   return (
     <div
-      className="relative bg-cover bg-center h-screen  mb-20"
+      className="relative bg-cover  bg-center h-screen  mb-20"
       style={{ backgroundImage: `url(${banner})` }}
     >
       {/* Overlay for blur effect */}

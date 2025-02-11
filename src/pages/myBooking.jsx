@@ -106,10 +106,10 @@ const MyBooking = () => {
 
   return (
     <div>
-      <div className="my-20">
+      <div className="my-16">
         {loading ? (
          <div className='flex h-screen justify-center items-center'>
-         <span className="loading loading-spinner loading-lg"></span>
+         <span className="loading loading-bars loading-lg"></span>
        </div>
         ) : bookCar.length > 0 ? (
           <div className="overflow-x-auto">
